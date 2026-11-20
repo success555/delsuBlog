@@ -53,7 +53,7 @@ export function StaffAvatar({
           height={imageSizes[size]}
           className="object-cover w-full h-full"
           onError={() => setHasError(true)}
-          unoptimized={avatar?.startsWith('/uploads/') || avatar?.startsWith('data:')}
+          unoptimized
         />
       ) : (
         <span className="font-black text-red-700 uppercase tracking-tight">

@@ -64,32 +64,37 @@ export function OptimizedImage({
   const fallbackSrc =
     'https://images.unsplash.com/photo-1585829365295-ab7cd400c167?auto=format&fit=crop&w=1200&q=80';
 
+  const cleanSrc = typeof src === 'string' && src.trim() !== '' ? src.trim() : fallbackSrc;
+  const effectiveSrc = hasError ? fallbackSrc : cleanSrc;
+
   if (fill) {
     return (
-      <div className={`relative overflow-hidden ${className}`}>
+      <div className="absolute inset-0 w-full h-full overflow-hidden">
         <Image
-          src={hasError ? fallbackSrc : src}
-          alt={alt}
+          src={effectiveSrc}
+          alt={alt || 'Delsu Abraka Blog'}
           fill
           priority={priority}
           sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
-          className="object-cover transition-transform duration-300 group-hover:scale-105"
+          className={`object-cover w-full h-full transition-transform duration-300 group-hover:scale-105 ${className}`}
           onError={() => setHasError(true)}
+          unoptimized
         />
       </div>
     );
   }
 
   return (
-    <div className={`overflow-hidden ${className}`}>
+    <div className={`relative overflow-hidden ${className}`}>
       <Image
-        src={hasError ? fallbackSrc : src}
-        alt={alt}
+        src={effectiveSrc}
+        alt={alt || 'Delsu Abraka Blog'}
         width={width || 800}
         height={height || 500}
         priority={priority}
         className="object-cover w-full h-auto transition-transform duration-300 group-hover:scale-105"
         onError={() => setHasError(true)}
+        unoptimized
       />
     </div>
   );
