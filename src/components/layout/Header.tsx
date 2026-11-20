@@ -70,14 +70,14 @@ export function Header() {
             <WatClock />
             
             <a
-              href="https://whatsapp.com"
+              href="https://wa.me/message/J3ZOIRSKCSMZM1"
               target="_blank"
               rel="noopener noreferrer"
               className="hidden lg:inline-flex items-center gap-1 text-[11px] font-semibold text-emerald-400 hover:text-emerald-300 transition-colors"
-              title="Join DELSU Abraka WhatsApp Channel"
+              title="Join DELSU Abraka WhatsApp Group"
             >
               <MessageCircle className="w-3.5 h-3.5" />
-              <span>WhatsApp Channel</span>
+              <span>WhatsApp Group</span>
             </a>
 
             <div className="h-3.5 w-px bg-zinc-700 hidden sm:block" />

@@ -65,13 +65,13 @@ export function NewsletterBox() {
 
           <div className="flex flex-wrap items-center gap-3">
             <a
-              href="https://whatsapp.com"
+              href="https://wa.me/message/J3ZOIRSKCSMZM1"
               target="_blank"
               rel="noopener noreferrer"
               className="inline-flex items-center gap-2 px-6 py-3 bg-emerald-500 hover:bg-emerald-600 text-white font-extrabold text-sm rounded-xl transition-all shadow-lg shadow-emerald-950/40 transform hover:-translate-y-0.5"
             >
               <MessageCircle className="w-5 h-5 fill-white" />
-              <span>Join WhatsApp Channel Now</span>
+              <span>Join WhatsApp Group Now</span>
             </a>
 
             <span className="text-xs text-red-200 font-medium">

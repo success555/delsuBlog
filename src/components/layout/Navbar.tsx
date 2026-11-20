@@ -207,12 +207,12 @@ export function Navbar() {
                 </Link>
 
                 <a
-                  href="https://whatsapp.com"
+                  href="https://wa.me/message/J3ZOIRSKCSMZM1"
                   target="_blank"
                   rel="noopener noreferrer"
                   className="flex items-center justify-center gap-2 py-2 px-4 bg-emerald-600 text-white text-xs font-bold rounded-lg hover:bg-emerald-700"
                 >
-                  <span>Join WhatsApp Channel</span>
+                  <span>Join WhatsApp Group</span>
                 </a>
               </div>
             </div>

@@ -215,7 +215,7 @@ export async function saveServerAds(ads: Advertisement[]): Promise<void> {
         slot: a.slot,
         title: a.title,
         image_url: a.image_url || '',
-        target_url: a.target_url || 'https://whatsapp.com',
+        target_url: a.target_url || 'https://wa.me/message/J3ZOIRSKCSMZM1',
         sponsor_name: a.sponsor_name || 'DELSU Ad Partner',
         is_active: Boolean(a.is_active),
         clicks_count: a.clicks_count || 0,

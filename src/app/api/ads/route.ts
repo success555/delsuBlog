@@ -39,7 +39,7 @@ export async function POST(request: Request) {
       slot,
       title: title?.trim() || `${slot.toUpperCase()} Advertisement`,
       image_url: image_url?.trim() || '',
-      target_url: target_url?.trim() || 'https://whatsapp.com',
+      target_url: target_url?.trim() || 'https://wa.me/message/J3ZOIRSKCSMZM1',
       sponsor_name: sponsor_name?.trim() || 'DELSU Ad Partner',
       is_active: Boolean(is_active),
       clicks_count: body.clicks_count || 0,

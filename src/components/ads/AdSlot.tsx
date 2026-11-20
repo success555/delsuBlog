@@ -68,7 +68,7 @@ export function AdSlot({
       return (
         <div className={`w-full my-6 flex flex-col items-center ${className}`}>
           <a
-            href={ad.target_url || 'https://whatsapp.com'}
+            href={ad.target_url || 'https://wa.me/message/J3ZOIRSKCSMZM1'}
             target="_blank"
             rel="noopener noreferrer"
             className="group relative w-full max-w-[728px] aspect-[728/90] sm:aspect-[728/90] rounded-lg overflow-hidden border border-zinc-200 dark:border-zinc-800 bg-zinc-100 dark:bg-zinc-900 shadow-sm hover:shadow-md hover:border-red-400 transition-all block"
@@ -99,7 +99,7 @@ export function AdSlot({
       return (
         <div className={`w-full my-4 flex flex-col items-center ${className}`}>
           <a
-            href={ad.target_url || 'https://whatsapp.com'}
+            href={ad.target_url || 'https://wa.me/message/J3ZOIRSKCSMZM1'}
             target="_blank"
             rel="noopener noreferrer"
             className="group relative w-full max-w-[300px] aspect-[300/250] rounded-xl overflow-hidden border border-zinc-200 dark:border-zinc-800 bg-zinc-100 dark:bg-zinc-900 shadow-sm hover:shadow-md hover:border-red-400 transition-all block"
@@ -130,7 +130,7 @@ export function AdSlot({
     return (
       <div className={`my-8 ${className}`}>
         <a
-          href={ad.target_url || 'https://whatsapp.com'}
+          href={ad.target_url || 'https://wa.me/message/J3ZOIRSKCSMZM1'}
           target="_blank"
           rel="noopener noreferrer"
           className="group relative w-full aspect-[21/9] sm:aspect-[4/1] rounded-xl overflow-hidden border border-zinc-200 dark:border-zinc-800 bg-zinc-100 dark:bg-zinc-900 shadow-sm hover:shadow-md hover:border-red-400 transition-all block"

@@ -26,3 +26,4 @@ if (typeof globalThis !== 'undefined' && typeof globalThis.atob === 'function') 
 }
 
 export {};
+

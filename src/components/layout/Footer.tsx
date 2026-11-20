@@ -109,17 +109,17 @@ export function Footer() {
               Join Our Community
             </h3>
             <p className="text-xs text-zinc-400">
-              Never miss breaking news from Abraka and across Nigeria. Join over 25,000 students and alumni on our WhatsApp channel.
+              Never miss breaking news from Abraka and across Nigeria. Join over 25,000 students and alumni on our official WhatsApp group.
             </p>
 
             <a
-              href="https://whatsapp.com"
+              href="https://wa.me/message/J3ZOIRSKCSMZM1"
               target="_blank"
               rel="noopener noreferrer"
               className="inline-flex items-center justify-center gap-2 w-full py-2.5 px-4 bg-emerald-600 hover:bg-emerald-700 text-white font-bold text-xs rounded-lg transition-colors shadow-sm"
             >
               <MessageCircle className="w-4 h-4" />
-              <span>Join WhatsApp Channel</span>
+              <span>Join WhatsApp Group</span>
             </a>
 
             <div className="pt-2">

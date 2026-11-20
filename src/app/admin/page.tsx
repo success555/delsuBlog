@@ -1863,10 +1863,10 @@ export default function AdminDashboardPage() {
                   </span>
                   <button
                     type="button"
-                    onClick={() => setAdTargetUrl('https://wa.me/234')}
+                    onClick={() => setAdTargetUrl('https://wa.me/message/J3ZOIRSKCSMZM1')}
                     className="text-[10px] px-2 py-0.5 bg-emerald-50 text-emerald-700 hover:bg-emerald-100 rounded border border-emerald-200 transition-colors"
                   >
-                    WhatsApp Chat Link (wa.me)
+                    WhatsApp Group / Chat (wa.me)
                   </button>
                   <button
                     type="button"
