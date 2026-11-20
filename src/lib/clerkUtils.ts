@@ -32,3 +32,4 @@ export function isValidClerkSecretKey(key?: string | null): boolean {
 
   return clean.length >= 25;
 }
+

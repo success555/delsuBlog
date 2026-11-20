@@ -1,5 +1,6 @@
 import { NextResponse } from 'next/server';
 import { getCommentsForPost, addComment } from '@/lib/postsStore';
+import { revalidatePath } from 'next/cache';
 
 export async function GET(request: Request) {
   const { searchParams } = new URL(request.url);
@@ -31,10 +32,16 @@ export async function POST(request: Request) {
       content: body.content,
     });
 
+    try {
+      revalidatePath(`/blog/${body.post_slug}`);
+      revalidatePath('/');
+    } catch {
+      // Ignored outside Next.js request context
+    }
+
     return NextResponse.json(newComment, { status: 201 });
   } catch (err: unknown) {
     const message = err instanceof Error ? err.message : 'Failed to post comment';
     return NextResponse.json({ error: message }, { status: 500 });
   }
 }
-

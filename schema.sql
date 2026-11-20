@@ -111,7 +111,7 @@ CREATE INDEX IF NOT EXISTS idx_categories_order ON categories(display_order ASC)
 -- 5. POSTS (ARTICLES) TABLE
 -- ==============================================================================
 CREATE TABLE IF NOT EXISTS posts (
-  id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
+  id TEXT PRIMARY KEY DEFAULT gen_random_uuid()::text,
   slug VARCHAR(255) UNIQUE NOT NULL,
   title VARCHAR(500) NOT NULL,
   excerpt TEXT NOT NULL,
@@ -119,6 +119,7 @@ CREATE TABLE IF NOT EXISTS posts (
   
   -- Category linkage
   category_slug VARCHAR(100) NOT NULL REFERENCES categories(slug) ON UPDATE CASCADE ON DELETE RESTRICT,
+  category VARCHAR(100),
   
   -- Media
   cover_image TEXT NOT NULL,
@@ -183,10 +184,10 @@ CREATE INDEX IF NOT EXISTS idx_posts_search ON posts USING GIN(search_vector);
 -- 6. COMMENTS TABLE (Threaded / Nested guest & authenticated comments)
 -- ==============================================================================
 CREATE TABLE IF NOT EXISTS comments (
-  id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
-  post_id UUID NOT NULL REFERENCES posts(id) ON DELETE CASCADE,
+  id TEXT PRIMARY KEY DEFAULT gen_random_uuid()::text,
+  post_id TEXT REFERENCES posts(id) ON DELETE CASCADE,
   post_slug VARCHAR(255) NOT NULL REFERENCES posts(slug) ON UPDATE CASCADE ON DELETE CASCADE,
-  parent_id UUID REFERENCES comments(id) ON DELETE CASCADE,
+  parent_id TEXT REFERENCES comments(id) ON DELETE CASCADE,
   
   -- Author identity (Clerk user if logged in, or guest details)
   user_id TEXT REFERENCES profiles(id) ON DELETE SET NULL,
@@ -294,9 +295,9 @@ CREATE INDEX IF NOT EXISTS idx_email_logs_resend_id ON email_logs(resend_email_i
 -- 9. USER BOOKMARKS & POST LIKES (Reader Engagement for Clerk users)
 -- ==============================================================================
 CREATE TABLE IF NOT EXISTS bookmarks (
-  id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
+  id TEXT PRIMARY KEY DEFAULT gen_random_uuid()::text,
   user_id TEXT NOT NULL REFERENCES profiles(id) ON DELETE CASCADE, -- Clerk User ID
-  post_id UUID NOT NULL REFERENCES posts(id) ON DELETE CASCADE,
+  post_id TEXT NOT NULL REFERENCES posts(id) ON DELETE CASCADE,
   created_at TIMESTAMPTZ NOT NULL DEFAULT NOW(),
   UNIQUE(user_id, post_id)
 );
@@ -305,8 +306,8 @@ CREATE INDEX IF NOT EXISTS idx_bookmarks_user ON bookmarks(user_id);
 CREATE INDEX IF NOT EXISTS idx_bookmarks_post ON bookmarks(post_id);
 
 CREATE TABLE IF NOT EXISTS post_likes (
-  id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
-  post_id UUID NOT NULL REFERENCES posts(id) ON DELETE CASCADE,
+  id TEXT PRIMARY KEY DEFAULT gen_random_uuid()::text,
+  post_id TEXT NOT NULL REFERENCES posts(id) ON DELETE CASCADE,
   user_id TEXT REFERENCES profiles(id) ON DELETE SET NULL, -- Nullable for anonymous likes
   client_ip_hash TEXT, -- To prevent abuse from non-logged in users
   created_at TIMESTAMPTZ NOT NULL DEFAULT NOW()
@@ -353,7 +354,31 @@ CREATE INDEX IF NOT EXISTS idx_contact_inquiries_email ON contact_inquiries(emai
 CREATE INDEX IF NOT EXISTS idx_contact_inquiries_category ON contact_inquiries(category);
 
 -- ==============================================================================
--- 11. RPC HELPER FUNCTIONS (Safe atomic operations)
+-- 11. ADVERTISEMENTS TABLE (Banner, Sidebar, Leaderboard, In-Article Ads)
+-- ==============================================================================
+CREATE TABLE IF NOT EXISTS advertisements (
+  id TEXT PRIMARY KEY,
+  slot VARCHAR(50) UNIQUE NOT NULL, -- 'leaderboard', 'sidebar', 'in-article'
+  title TEXT NOT NULL,
+  image_url TEXT,
+  target_url TEXT NOT NULL DEFAULT 'https://whatsapp.com',
+  sponsor_name TEXT NOT NULL DEFAULT 'DELSU Ad Partner',
+  is_active BOOLEAN NOT NULL DEFAULT FALSE,
+  clicks_count INT NOT NULL DEFAULT 0,
+  created_at TIMESTAMPTZ NOT NULL DEFAULT NOW(),
+  updated_at TIMESTAMPTZ NOT NULL DEFAULT NOW()
+);
+
+CREATE TRIGGER trigger_advertisements_updated_at
+  BEFORE UPDATE ON advertisements
+  FOR EACH ROW
+  EXECUTE FUNCTION set_updated_at();
+
+CREATE INDEX IF NOT EXISTS idx_advertisements_slot ON advertisements(slot);
+CREATE INDEX IF NOT EXISTS idx_advertisements_active ON advertisements(is_active);
+
+-- ==============================================================================
+-- 12. RPC HELPER FUNCTIONS (Safe atomic operations)
 -- ==============================================================================
 
 -- Increment view count without race conditions
@@ -385,6 +410,7 @@ ALTER TABLE email_logs ENABLE ROW LEVEL SECURITY;
 ALTER TABLE bookmarks ENABLE ROW LEVEL SECURITY;
 ALTER TABLE post_likes ENABLE ROW LEVEL SECURITY;
 ALTER TABLE contact_inquiries ENABLE ROW LEVEL SECURITY;
+ALTER TABLE advertisements ENABLE ROW LEVEL SECURITY;
 
 -- 12.1 PROFILES POLICIES
 -- Anyone can view author profiles publicly
@@ -452,6 +478,13 @@ CREATE POLICY "Public can insert likes"
 CREATE POLICY "Public can submit contact inquiries" 
   ON contact_inquiries FOR INSERT WITH CHECK (true);
 
+-- 12.9 ADVERTISEMENTS POLICIES
+CREATE POLICY "Public can view advertisements" 
+  ON advertisements FOR SELECT USING (true);
+
+CREATE POLICY "Anyone or service role can manage advertisements" 
+  ON advertisements FOR ALL USING (true) WITH CHECK (true);
+
 -- ==============================================================================
 -- 13. SUPABASE STORAGE BUCKETS SETUP
 -- ==============================================================================
@@ -476,3 +509,17 @@ CREATE POLICY "Public Access for Covers"
 CREATE POLICY "Service Role and Authenticated Upload Access" 
   ON storage.objects FOR INSERT 
   WITH CHECK (bucket_id IN ('post-covers', 'staff-avatars', 'media-uploads'));
+
+-- ==============================================================================
+-- 14. SCHEMA PERMISSIONS & GRANTS
+-- Mandatory for PostgREST & Supabase API to access tables and sequences
+-- ==============================================================================
+GRANT USAGE ON SCHEMA public TO anon, authenticated, service_role;
+GRANT ALL ON ALL TABLES IN SCHEMA public TO anon, authenticated, service_role;
+GRANT ALL ON ALL SEQUENCES IN SCHEMA public TO anon, authenticated, service_role;
+GRANT ALL ON ALL ROUTINES IN SCHEMA public TO anon, authenticated, service_role;
+
+ALTER DEFAULT PRIVILEGES IN SCHEMA public GRANT ALL ON TABLES TO anon, authenticated, service_role;
+ALTER DEFAULT PRIVILEGES IN SCHEMA public GRANT ALL ON SEQUENCES TO anon, authenticated, service_role;
+ALTER DEFAULT PRIVILEGES IN SCHEMA public GRANT ALL ON ROUTINES TO anon, authenticated, service_role;
+

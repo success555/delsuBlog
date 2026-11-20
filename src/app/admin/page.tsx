@@ -35,6 +35,8 @@ import {
   MousePointerClick,
   Layers,
   Link2,
+  Database,
+  RefreshCw,
 } from 'lucide-react';
 
 const COVER_PRESETS = [
@@ -66,6 +68,8 @@ export default function AdminDashboardPage() {
   const [searchFilter, setSearchFilter] = useState('');
   const [categoryFilter, setCategoryFilter] = useState('all');
   const [statusMessage, setStatusMessage] = useState('');
+  const [isSeeding, setIsSeeding] = useState(false);
+  const [seedStatus, setSeedStatus] = useState<string | null>(null);
 
   // Article Modal States
   const [isEditorOpen, setIsEditorOpen] = useState(false);
@@ -139,6 +143,31 @@ export default function AdminDashboardPage() {
     setPosts(postsData);
     setCategories(catsData);
     setAds(adsData);
+  };
+
+  const handleSeedDatabase = async () => {
+    if (!confirm('Sync and seed Supabase database with production DELSU categories, articles, ads, and comments?')) {
+      return;
+    }
+    setIsSeeding(true);
+    setSeedStatus('Syncing Supabase database...');
+    try {
+      const res = await fetch('/api/seed', { method: 'POST' });
+      const data = await res.json();
+      if (res.ok && data.success) {
+        setSeedStatus(`Database synced successfully! ${data.results.posts} posts, ${data.results.categories} categories, ${data.results.advertisements} ads.`);
+        await loadAllData();
+        setTimeout(() => setSeedStatus(null), 6000);
+      } else {
+        setSeedStatus(`Sync notice: ${data.error || data.message || 'Check Supabase configuration'}`);
+        setTimeout(() => setSeedStatus(null), 8000);
+      }
+    } catch (err: any) {
+      setSeedStatus(`Sync failed: ${err.message}`);
+      setTimeout(() => setSeedStatus(null), 8000);
+    } finally {
+      setIsSeeding(false);
+    }
   };
 
   const handleLogout = () => {
@@ -531,6 +560,16 @@ export default function AdminDashboardPage() {
               <span>Live Website</span>
             </Link>
 
+            <button
+              onClick={handleSeedDatabase}
+              disabled={isSeeding}
+              className="inline-flex items-center gap-1.5 px-3 py-2 text-xs font-bold text-zinc-800 bg-zinc-100 hover:bg-zinc-200 border border-zinc-200 rounded-lg transition-colors disabled:opacity-50"
+              title="Synchronize and seed Supabase database with production data"
+            >
+              <Database className={`w-3.5 h-3.5 text-red-600 ${isSeeding ? 'animate-spin' : ''}`} />
+              <span>{isSeeding ? 'Syncing...' : 'Sync Supabase'}</span>
+            </button>
+
             {activeTab === 'articles' ? (
               <button
                 onClick={openNewPostEditor}
@@ -566,6 +605,21 @@ export default function AdminDashboardPage() {
             </button>
           </div>
         </div>
+
+        {seedStatus && (
+          <div className="bg-zinc-900 text-white px-4 py-2.5 rounded-xl text-xs font-semibold flex items-center justify-between shadow-md">
+            <div className="flex items-center gap-2">
+              <Database className="w-4 h-4 text-red-500 shrink-0" />
+              <span>{seedStatus}</span>
+            </div>
+            <button
+              onClick={() => setSeedStatus(null)}
+              className="text-zinc-400 hover:text-white transition-colors"
+            >
+              <X className="w-4 h-4" />
+            </button>
+          </div>
+        )}
 
         {/* Tab Switcher */}
         <div className="flex items-center gap-2 border-b border-zinc-200 pb-2 overflow-x-auto">

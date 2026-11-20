@@ -1,6 +1,7 @@
 import { NextResponse } from 'next/server';
 import { getServerAds, saveServerAds } from '@/lib/serverData';
 import { Advertisement } from '@/types/ads';
+import { revalidatePath } from 'next/cache';
 
 export async function GET() {
   try {
@@ -21,7 +22,7 @@ export async function GET() {
 export async function POST(request: Request) {
   try {
     const body = await request.json();
-    const { id, slot, title, image_url, target_url, sponsor_name, is_active } = body;
+    const { slot, title, image_url, target_url, sponsor_name, is_active } = body;
 
     if (!slot) {
       return NextResponse.json(
@@ -57,6 +58,13 @@ export async function POST(request: Request) {
 
     await saveServerAds(nextAds);
 
+    try {
+      revalidatePath('/');
+      revalidatePath('/admin');
+    } catch {
+      // Ignored if called outside request context
+    }
+
     return NextResponse.json(updatedAd, { status: 200 });
   } catch (err: any) {
     console.error('Error saving advertisement:', err);
@@ -66,4 +74,3 @@ export async function POST(request: Request) {
     );
   }
 }
-
