@@ -1,0 +1,35 @@
+[
+  {
+    "id": "ad-leaderboard",
+    "slot": "leaderboard",
+    "title": "Promote Your Campus Brand, Product or Event on Delsu Abraka Blog TV",
+    "image_url": "",
+    "target_url": "https://whatsapp.com",
+    "sponsor_name": "DELSU Media Partner",
+    "is_active": false,
+    "clicks_count": 0,
+    "updated_at": "2026-11-20T08:00:00.000Z"
+  },
+  {
+    "id": "ad-sidebar",
+    "slot": "sidebar",
+    "title": "Target 25,000+ DELSU Students and Nigerian Readers",
+    "image_url": "",
+    "target_url": "https://whatsapp.com",
+    "sponsor_name": "Campus Ad Partner",
+    "is_active": false,
+    "clicks_count": 0,
+    "updated_at": "2026-11-20T08:00:00.000Z"
+  },
+  {
+    "id": "ad-in-article",
+    "slot": "in-article",
+    "title": "Need Fast Off-Campus Accommodation in Abraka or Student Deals?",
+    "image_url": "",
+    "target_url": "https://whatsapp.com",
+    "sponsor_name": "Abraka Student Housing",
+    "is_active": false,
+    "clicks_count": 0,
+    "updated_at": "2026-11-20T08:00:00.000Z"
+  }
+]

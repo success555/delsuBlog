@@ -7,7 +7,7 @@ export async function POST(request: Request) {
   try {
     const formData = await request.formData();
     const file = formData.get('file') as File | null;
-    const type = (formData.get('type') as string) || 'cover'; // 'cover' | 'avatar' | 'media'
+    const type = (formData.get('type') as string) || 'cover'; // 'cover' | 'avatar' | 'media' | 'ad'
 
     if (!file) {
       return NextResponse.json({ error: 'No file uploaded' }, { status: 400 });
@@ -29,7 +29,7 @@ export async function POST(request: Request) {
       const bucketName =
         type === 'avatar'
           ? 'staff-avatars'
-          : type === 'media'
+          : type === 'media' || type === 'ad'
           ? 'media-uploads'
           : 'post-covers';
 

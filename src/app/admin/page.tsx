@@ -5,8 +5,10 @@ import { useRouter } from 'next/navigation';
 import Link from 'next/link';
 import Image from 'next/image';
 import { Post, CategoryInfo } from '@/types/blog';
+import { Advertisement, AdSlotType } from '@/types/ads';
 import { getAllPosts, savePost, deletePost } from '@/lib/postsStore';
 import { getAllCategories, saveCategory, deleteCategory } from '@/lib/categoriesStore';
+import { getAllAds, saveAd } from '@/lib/adsStore';
 import { slugify, calculateReadingTime, formatWATDate } from '@/lib/utils';
 import {
   Plus,
@@ -29,6 +31,10 @@ import {
   Tags,
   FolderPlus,
   ShieldCheck,
+  Megaphone,
+  MousePointerClick,
+  Layers,
+  Link2,
 } from 'lucide-react';
 
 const COVER_PRESETS = [
@@ -53,9 +59,10 @@ const ACCENT_PRESETS = [
 export default function AdminDashboardPage() {
   const router = useRouter();
   const [isAuthenticated, setIsAuthenticated] = useState(false);
-  const [activeTab, setActiveTab] = useState<'articles' | 'categories'>('articles');
+  const [activeTab, setActiveTab] = useState<'articles' | 'categories' | 'ads'>('articles');
   const [posts, setPosts] = useState<Post[]>([]);
   const [categories, setCategories] = useState<CategoryInfo[]>([]);
+  const [ads, setAds] = useState<Advertisement[]>([]);
   const [searchFilter, setSearchFilter] = useState('');
   const [categoryFilter, setCategoryFilter] = useState('all');
   const [statusMessage, setStatusMessage] = useState('');
@@ -96,9 +103,22 @@ export default function AdminDashboardPage() {
   const [isCatSlugManual, setIsCatSlugManual] = useState(false);
   const [isSavingCat, setIsSavingCat] = useState(false);
 
+  // Ad Modal States & Form Fields
+  const [isAdModalOpen, setIsAdModalOpen] = useState(false);
+  const [editingAd, setEditingAd] = useState<Advertisement | null>(null);
+  const [adSlot, setAdSlot] = useState<AdSlotType>('leaderboard');
+  const [adTitle, setAdTitle] = useState('');
+  const [adImageUrl, setAdImageUrl] = useState('');
+  const [adTargetUrl, setAdTargetUrl] = useState('');
+  const [adSponsorName, setAdSponsorName] = useState('');
+  const [adIsActive, setAdIsActive] = useState(false);
+  const [isSavingAd, setIsSavingAd] = useState(false);
+  const [isUploadingAd, setIsUploadingAd] = useState(false);
+
   // File Input References
   const coverFileInputRef = useRef<HTMLInputElement>(null);
   const staffFileInputRef = useRef<HTMLInputElement>(null);
+  const adFileInputRef = useRef<HTMLInputElement>(null);
 
   useEffect(() => {
     const token = localStorage.getItem('delsu_admin_session');
@@ -111,12 +131,14 @@ export default function AdminDashboardPage() {
   }, [router]);
 
   const loadAllData = async () => {
-    const [postsData, catsData] = await Promise.all([
+    const [postsData, catsData, adsData] = await Promise.all([
       getAllPosts(),
       getAllCategories(),
+      getAllAds(),
     ]);
     setPosts(postsData);
     setCategories(catsData);
+    setAds(adsData);
   };
 
   const handleLogout = () => {
@@ -125,7 +147,7 @@ export default function AdminDashboardPage() {
   };
 
   // Helper to upload image to server or fallback to Base64
-  const processImageUpload = async (file: File, type: 'cover' | 'staff'): Promise<string> => {
+  const processImageUpload = async (file: File, type: 'cover' | 'staff' | 'ad'): Promise<string> => {
     try {
       const formData = new FormData();
       formData.append('file', file);
@@ -360,6 +382,103 @@ export default function AdminDashboardPage() {
     }
   };
 
+  // Advertisement Handlers
+  const openEditAdModal = (ad: Advertisement) => {
+    setEditingAd(ad);
+    setAdSlot(ad.slot);
+    setAdTitle(ad.title);
+    setAdImageUrl(ad.image_url);
+    setAdTargetUrl(ad.target_url);
+    setAdSponsorName(ad.sponsor_name);
+    setAdIsActive(ad.is_active);
+    setIsAdModalOpen(true);
+  };
+
+  const openNewAdModalForSlot = (slotType: AdSlotType) => {
+    const existing = ads.find((a) => a.slot === slotType);
+    if (existing) {
+      openEditAdModal(existing);
+      return;
+    }
+    setEditingAd(null);
+    setAdSlot(slotType);
+    setAdTitle(
+      slotType === 'leaderboard'
+        ? 'DELSU Leaderboard 728x90 Banner'
+        : slotType === 'sidebar'
+        ? 'DELSU Sidebar 300x250 Banner'
+        : 'DELSU In-Article Native Banner'
+    );
+    setAdImageUrl('');
+    setAdTargetUrl('https://wa.me/234');
+    setAdSponsorName('DELSU Campus Partner');
+    setAdIsActive(true);
+    setIsAdModalOpen(true);
+  };
+
+  const handleAdFileUpload = async (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    if (!file) return;
+
+    setIsUploadingAd(true);
+    try {
+      const url = await processImageUpload(file, 'ad');
+      setAdImageUrl(url);
+      setStatusMessage('Advertisement banner uploaded successfully!');
+      setTimeout(() => setStatusMessage(''), 3000);
+    } catch {
+      alert('Failed to upload ad image banner.');
+    } finally {
+      setIsUploadingAd(false);
+    }
+  };
+
+  const handleSaveAd = async (e: React.FormEvent) => {
+    e.preventDefault();
+    setIsSavingAd(true);
+
+    const adPayload: Advertisement = {
+      id: editingAd ? editingAd.id : `ad-${adSlot}`,
+      slot: adSlot,
+      title: adTitle.trim() || `${adSlot.toUpperCase()} Banner Ad`,
+      image_url: adImageUrl.trim(),
+      target_url: adTargetUrl.trim() || 'https://wa.me/234',
+      sponsor_name: adSponsorName.trim() || 'DELSU Partner',
+      is_active: adIsActive,
+      clicks_count: editingAd?.clicks_count || 0,
+      updated_at: new Date().toISOString(),
+    };
+
+    try {
+      await saveAd(adPayload);
+      await loadAllData();
+      setIsAdModalOpen(false);
+      setStatusMessage(`Advertisement for ${adSlot} saved successfully!`);
+      setTimeout(() => setStatusMessage(''), 4000);
+    } catch (err) {
+      console.error(err);
+      alert('Error saving advertisement.');
+    } finally {
+      setIsSavingAd(false);
+    }
+  };
+
+  const handleToggleAdActive = async (ad: Advertisement) => {
+    try {
+      const updated = {
+        ...ad,
+        is_active: !ad.is_active,
+        updated_at: new Date().toISOString(),
+      };
+      await saveAd(updated);
+      await loadAllData();
+      setStatusMessage(`Ad "${ad.title}" set to ${!ad.is_active ? 'ACTIVE (Live)' : 'INACTIVE (Off)'}`);
+      setTimeout(() => setStatusMessage(''), 3000);
+    } catch (err) {
+      console.error(err);
+    }
+  };
+
   if (!isAuthenticated) {
     return (
       <div className="min-h-screen flex items-center justify-center bg-zinc-50">
@@ -419,13 +538,21 @@ export default function AdminDashboardPage() {
                 <Plus className="w-4 h-4" />
                 <span>New Article</span>
               </button>
-            ) : (
+            ) : activeTab === 'categories' ? (
               <button
                 onClick={openNewCategoryModal}
                 className="inline-flex items-center gap-1.5 px-4 py-2 bg-red-600 hover:bg-red-700 text-white text-xs font-bold rounded-lg transition-colors shadow-sm"
               >
                 <FolderPlus className="w-4 h-4" />
                 <span>Add Category</span>
+              </button>
+            ) : (
+              <button
+                onClick={() => openNewAdModalForSlot('leaderboard')}
+                className="inline-flex items-center gap-1.5 px-4 py-2 bg-red-600 hover:bg-red-700 text-white text-xs font-bold rounded-lg transition-colors shadow-sm"
+              >
+                <Upload className="w-4 h-4" />
+                <span>Upload / Edit Ad</span>
               </button>
             )}
 
@@ -440,10 +567,10 @@ export default function AdminDashboardPage() {
         </div>
 
         {/* Tab Switcher */}
-        <div className="flex items-center gap-2 border-b border-zinc-200 pb-2">
+        <div className="flex items-center gap-2 border-b border-zinc-200 pb-2 overflow-x-auto">
           <button
             onClick={() => setActiveTab('articles')}
-            className={`px-4 py-2 text-xs font-black uppercase tracking-wider rounded-lg transition-all flex items-center gap-2 ${
+            className={`px-4 py-2 text-xs font-black uppercase tracking-wider rounded-lg transition-all flex items-center gap-2 shrink-0 ${
               activeTab === 'articles'
                 ? 'bg-red-600 text-white shadow-sm'
                 : 'bg-white text-zinc-700 hover:bg-zinc-200 border border-zinc-200'
@@ -455,7 +582,7 @@ export default function AdminDashboardPage() {
 
           <button
             onClick={() => setActiveTab('categories')}
-            className={`px-4 py-2 text-xs font-black uppercase tracking-wider rounded-lg transition-all flex items-center gap-2 ${
+            className={`px-4 py-2 text-xs font-black uppercase tracking-wider rounded-lg transition-all flex items-center gap-2 shrink-0 ${
               activeTab === 'categories'
                 ? 'bg-red-600 text-white shadow-sm'
                 : 'bg-white text-zinc-700 hover:bg-zinc-200 border border-zinc-200'
@@ -463,6 +590,18 @@ export default function AdminDashboardPage() {
           >
             <Tags className="w-4 h-4" />
             <span>Manage Categories ({categories.length})</span>
+          </button>
+
+          <button
+            onClick={() => setActiveTab('ads')}
+            className={`px-4 py-2 text-xs font-black uppercase tracking-wider rounded-lg transition-all flex items-center gap-2 shrink-0 ${
+              activeTab === 'ads'
+                ? 'bg-red-600 text-white shadow-sm'
+                : 'bg-white text-zinc-700 hover:bg-zinc-200 border border-zinc-200'
+            }`}
+          >
+            <Megaphone className="w-4 h-4" />
+            <span>Ad Banners & Links ({ads.filter((a) => a.is_active).length} Active)</span>
           </button>
         </div>
 
@@ -765,6 +904,198 @@ export default function AdminDashboardPage() {
                   </tbody>
                 </table>
               </div>
+            </div>
+          </div>
+        )}
+
+        {/* ================= ADS MANAGEMENT TAB ================= */}
+        {activeTab === 'ads' && (
+          <div className="space-y-6">
+            {/* Header info banner */}
+            <div className="bg-white p-6 rounded-2xl border border-zinc-200 shadow-xs flex flex-col md:flex-row items-start md:items-center justify-between gap-4">
+              <div>
+                <div className="flex items-center gap-2 mb-1">
+                  <span className="p-1 bg-red-100 text-red-600 rounded">
+                    <Megaphone className="w-4 h-4" />
+                  </span>
+                  <h2 className="text-base font-black text-zinc-950 uppercase tracking-tight">
+                    Campus Ad Placements & Monetization
+                  </h2>
+                </div>
+                <p className="text-xs text-zinc-500 max-w-2xl leading-relaxed">
+                  Upload custom advertiser banners, configure destination URLs (such as WhatsApp direct message links, phone calls, or brand websites), and toggle live campaigns across DELSU Abraka Blog TV.
+                </p>
+              </div>
+
+              <div className="flex items-center gap-3">
+                <button
+                  onClick={() => openNewAdModalForSlot('leaderboard')}
+                  className="px-4 py-2 bg-red-600 hover:bg-red-700 text-white text-xs font-bold rounded-lg transition-colors shadow-sm flex items-center gap-1.5 shrink-0"
+                >
+                  <Plus className="w-4 h-4" />
+                  <span>Configure Ad Banner</span>
+                </button>
+              </div>
+            </div>
+
+            {/* Ad Placements Grid */}
+            <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
+              {[
+                {
+                  slot: 'leaderboard' as AdSlotType,
+                  title: 'Header / Top Leaderboard',
+                  placement: 'Homepage Top & Category Archive headers',
+                  spec: '728 × 90 px (Leaderboard)',
+                  aspectClass: 'aspect-[728/90]',
+                  description: 'High visibility banner seen immediately when visitors load the blog on desktop and tablet.',
+                },
+                {
+                  slot: 'sidebar' as AdSlotType,
+                  title: 'Sidebar Square Banner',
+                  placement: 'Right Column beside Trending News',
+                  spec: '300 × 250 px (Medium Rectangle)',
+                  aspectClass: 'aspect-[300/250] max-w-[300px] mx-auto',
+                  description: 'Square ad format running adjacent to the top-ranked articles and campus bulletins.',
+                },
+                {
+                  slot: 'in-article' as AdSlotType,
+                  title: 'In-Article Native Banner',
+                  placement: 'Inside every published article (after paragraph 3)',
+                  spec: 'Responsive (~4:1 Banner)',
+                  aspectClass: 'aspect-[21/9] sm:aspect-[4/1]',
+                  description: 'Engaging native horizontal banner inserted directly within the reading stream of articles.',
+                },
+              ].map((item) => {
+                const currentAd = ads.find((a) => a.slot === item.slot);
+                const isActive = currentAd?.is_active && Boolean(currentAd.image_url);
+
+                return (
+                  <div
+                    key={item.slot}
+                    className="bg-white rounded-2xl border border-zinc-200 overflow-hidden shadow-xs flex flex-col justify-between"
+                  >
+                    {/* Card Top */}
+                    <div className="p-5 border-b border-zinc-100 space-y-3">
+                      <div className="flex items-center justify-between">
+                        <span className="text-[10px] font-black uppercase tracking-wider px-2 py-0.5 rounded bg-zinc-100 text-zinc-700">
+                          {item.spec}
+                        </span>
+                        {isActive ? (
+                          <span className="px-2 py-0.5 text-[10px] font-black uppercase tracking-wider bg-emerald-100 text-emerald-800 rounded-full flex items-center gap-1">
+                            <span className="w-1.5 h-1.5 rounded-full bg-emerald-600 animate-pulse" />
+                            Live on Site
+                          </span>
+                        ) : (
+                          <span className="px-2 py-0.5 text-[10px] font-black uppercase tracking-wider bg-zinc-100 text-zinc-500 rounded-full">
+                            Inactive / Fallback
+                          </span>
+                        )}
+                      </div>
+
+                      <div>
+                        <h3 className="text-sm font-black text-zinc-950">
+                          {item.title}
+                        </h3>
+                        <p className="text-[11px] text-zinc-500">
+                          {item.placement}
+                        </p>
+                      </div>
+
+                      {/* Visual Banner Preview */}
+                      <div className="pt-1">
+                        {currentAd?.image_url ? (
+                          <div className={`relative w-full ${item.aspectClass} rounded-xl overflow-hidden border border-zinc-200 bg-zinc-100 shadow-inner group`}>
+                            <Image
+                              src={currentAd.image_url}
+                              alt={currentAd.title || item.title}
+                              fill
+                              unoptimized
+                              className="object-cover group-hover:scale-105 transition-transform duration-300"
+                            />
+                            <div className="absolute top-1.5 right-1.5 bg-black/75 text-white text-[9px] font-bold px-1.5 py-0.5 rounded flex items-center gap-1">
+                              <ExternalLink className="w-2.5 h-2.5 text-red-400" />
+                              <span>Active Banner</span>
+                            </div>
+                          </div>
+                        ) : (
+                          <div className={`w-full ${item.aspectClass} rounded-xl border border-dashed border-red-200 bg-red-50/40 flex flex-col items-center justify-center p-4 text-center`}>
+                            <ImageIcon className="w-6 h-6 text-red-400 mb-1" />
+                            <span className="text-xs font-bold text-zinc-800">
+                              No Custom Banner Uploaded
+                            </span>
+                            <span className="text-[10px] text-zinc-400 mt-0.5">
+                              Default &apos;Contact Ad Desk&apos; placeholder is shown on site
+                            </span>
+                          </div>
+                        )}
+                      </div>
+
+                      {/* Ad Details */}
+                      <div className="space-y-2 pt-2 text-xs">
+                        <div className="flex items-center justify-between py-1 border-b border-zinc-50">
+                          <span className="text-zinc-500 font-medium">Campaign Title:</span>
+                          <span className="font-bold text-zinc-900 truncate max-w-[180px]">
+                            {currentAd?.title || 'None'}
+                          </span>
+                        </div>
+
+                        <div className="flex items-center justify-between py-1 border-b border-zinc-50">
+                          <span className="text-zinc-500 font-medium">Sponsor / Brand:</span>
+                          <span className="font-bold text-red-600 truncate max-w-[180px]">
+                            {currentAd?.sponsor_name || 'DELSU Partner'}
+                          </span>
+                        </div>
+
+                        <div className="flex items-center justify-between py-1 border-b border-zinc-50">
+                          <span className="text-zinc-500 font-medium">Click Destination:</span>
+                          {currentAd?.target_url ? (
+                            <a
+                              href={currentAd.target_url}
+                              target="_blank"
+                              rel="noopener noreferrer"
+                              className="font-mono text-[11px] text-blue-600 hover:underline flex items-center gap-1 truncate max-w-[180px]"
+                              title={currentAd.target_url}
+                            >
+                              <span className="truncate">{currentAd.target_url}</span>
+                              <ExternalLink className="w-3 h-3 shrink-0" />
+                            </a>
+                          ) : (
+                            <span className="text-zinc-400 font-mono text-[11px]">Not set</span>
+                          )}
+                        </div>
+                      </div>
+                    </div>
+
+                    {/* Card Actions Footer */}
+                    <div className="p-4 bg-zinc-50 flex items-center justify-between gap-2">
+                      {currentAd ? (
+                        <button
+                          type="button"
+                          onClick={() => handleToggleAdActive(currentAd)}
+                          className={`px-3 py-1.5 rounded-lg text-xs font-bold transition-colors ${
+                            currentAd.is_active
+                              ? 'bg-zinc-200 text-zinc-700 hover:bg-zinc-300'
+                              : 'bg-emerald-600 text-white hover:bg-emerald-700'
+                          }`}
+                        >
+                          {currentAd.is_active ? 'Disable Ad' : 'Enable Ad'}
+                        </button>
+                      ) : (
+                        <span />
+                      )}
+
+                      <button
+                        type="button"
+                        onClick={() => openNewAdModalForSlot(item.slot)}
+                        className="px-4 py-1.5 bg-red-600 hover:bg-red-700 text-white text-xs font-bold rounded-lg transition-colors flex items-center gap-1.5 shadow-xs"
+                      >
+                        <Upload className="w-3.5 h-3.5" />
+                        <span>Upload & Edit</span>
+                      </button>
+                    </div>
+                  </div>
+                );
+              })}
             </div>
           </div>
         )}
@@ -1268,6 +1599,245 @@ export default function AdminDashboardPage() {
                 >
                   <Save className="w-3.5 h-3.5" />
                   <span>{isSavingCat ? 'Saving...' : 'Save Category'}</span>
+                </button>
+              </div>
+
+            </form>
+          </div>
+        </div>
+      )}
+
+      {/* ================= ADVERTISEMENT EDITOR MODAL ================= */}
+      {isAdModalOpen && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/70 backdrop-blur-sm overflow-y-auto">
+          <div className="relative w-full max-w-xl bg-white rounded-3xl shadow-2xl border border-zinc-200 my-8 overflow-hidden max-h-[90vh] flex flex-col">
+            
+            {/* Modal Header */}
+            <div className="px-6 py-4 border-b border-zinc-200 flex items-center justify-between bg-zinc-50">
+              <div className="flex items-center gap-2">
+                <div className="p-1.5 bg-red-600 text-white rounded-lg">
+                  <Megaphone className="w-4 h-4" />
+                </div>
+                <div>
+                  <h3 className="text-base font-black text-zinc-950 uppercase tracking-tight">
+                    {editingAd ? 'Edit Advertisement' : 'Upload New Ad Banner'}
+                  </h3>
+                  <span className="text-[11px] text-zinc-500 font-medium">
+                    Placement: {adSlot.toUpperCase()} slot
+                  </span>
+                </div>
+              </div>
+
+              <button
+                onClick={() => setIsAdModalOpen(false)}
+                className="p-1.5 text-zinc-400 hover:text-zinc-700 hover:bg-zinc-200 rounded-lg"
+              >
+                <X className="w-5 h-5" />
+              </button>
+            </div>
+
+            {/* Modal Form */}
+            <form onSubmit={handleSaveAd} className="p-6 overflow-y-auto flex-1 space-y-4">
+              
+              {/* Ad Slot Selection */}
+              <div>
+                <label className="block text-xs font-bold text-zinc-800 mb-1">
+                  Ad Slot Position <span className="text-red-600">*</span>
+                </label>
+                <select
+                  value={adSlot}
+                  onChange={(e) => setAdSlot(e.target.value as AdSlotType)}
+                  className="w-full px-3.5 py-2 text-xs bg-white border border-zinc-300 rounded-lg focus:outline-none focus:ring-1 focus:ring-red-600 font-semibold"
+                >
+                  <option value="leaderboard">Leaderboard Header (728 × 90 px)</option>
+                  <option value="sidebar">Sidebar Square (300 × 250 px)</option>
+                  <option value="in-article">In-Article Native Banner (~4:1)</option>
+                </select>
+              </div>
+
+              {/* Campaign Title & Sponsor */}
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                <div>
+                  <label className="block text-xs font-bold text-zinc-800 mb-1">
+                    Campaign / Ad Title <span className="text-red-600">*</span>
+                  </label>
+                  <input
+                    type="text"
+                    required
+                    value={adTitle}
+                    onChange={(e) => setAdTitle(e.target.value)}
+                    placeholder="e.g. Abraka Laptop Deals"
+                    className="w-full px-3 py-2 text-xs bg-white border border-zinc-300 rounded-lg focus:outline-none focus:ring-1 focus:ring-red-600 font-semibold"
+                  />
+                </div>
+
+                <div>
+                  <label className="block text-xs font-bold text-zinc-800 mb-1">
+                    Sponsor / Brand Name
+                  </label>
+                  <input
+                    type="text"
+                    value={adSponsorName}
+                    onChange={(e) => setAdSponsorName(e.target.value)}
+                    placeholder="e.g. MTN Nigeria or Campus Cafe"
+                    className="w-full px-3 py-2 text-xs bg-white border border-zinc-300 rounded-lg focus:outline-none focus:ring-1 focus:ring-red-600"
+                  />
+                </div>
+              </div>
+
+              {/* Banner Graphic Upload */}
+              <div className="p-4 bg-zinc-50 rounded-2xl border border-zinc-200 space-y-3">
+                <div className="flex items-center justify-between">
+                  <label className="block text-xs font-black uppercase tracking-wider text-zinc-800">
+                    Banner Graphic Image <span className="text-red-600">*</span>
+                  </label>
+                  {isUploadingAd && (
+                    <span className="text-xs text-red-600 font-semibold animate-pulse">
+                      Uploading banner graphic...
+                    </span>
+                  )}
+                </div>
+
+                <div className="flex flex-col sm:flex-row gap-3 items-start sm:items-center">
+                  <input
+                    ref={adFileInputRef}
+                    type="file"
+                    accept="image/*"
+                    onChange={handleAdFileUpload}
+                    className="hidden"
+                  />
+                  <button
+                    type="button"
+                    onClick={() => adFileInputRef.current?.click()}
+                    disabled={isUploadingAd}
+                    className="px-4 py-2 bg-red-600 hover:bg-red-700 disabled:opacity-50 text-white text-xs font-bold rounded-lg transition-colors flex items-center gap-1.5 shadow-xs shrink-0"
+                  >
+                    <Upload className="w-3.5 h-3.5" />
+                    <span>Upload Banner Image</span>
+                  </button>
+
+                  <div className="flex-1 w-full">
+                    <input
+                      type="text"
+                      value={adImageUrl}
+                      onChange={(e) => setAdImageUrl(e.target.value)}
+                      placeholder="Or paste banner image URL (/uploads/... or https://...)"
+                      className="w-full px-3 py-2 text-xs bg-white border border-zinc-300 rounded-lg focus:outline-none focus:ring-1 focus:ring-red-600 font-mono"
+                    />
+                  </div>
+                </div>
+
+                {/* Banner Live Preview in Modal */}
+                {adImageUrl ? (
+                  <div className="relative w-full h-28 rounded-xl overflow-hidden border border-zinc-200 mt-2 bg-zinc-100">
+                    <Image
+                      src={adImageUrl}
+                      alt="Ad Preview"
+                      fill
+                      unoptimized
+                      className="object-cover"
+                    />
+                    <span className="absolute bottom-2 left-2 bg-black/75 text-white text-[10px] font-bold px-2 py-0.5 rounded">
+                      Banner Preview
+                    </span>
+                  </div>
+                ) : (
+                  <div className="py-4 text-center border border-dashed border-zinc-300 rounded-xl bg-white text-[11px] text-zinc-400">
+                    Click &apos;Upload Banner Image&apos; from your computer or paste an image link above.
+                  </div>
+                )}
+              </div>
+
+              {/* Destination URL */}
+              <div className="space-y-1.5">
+                <label className="block text-xs font-bold text-zinc-800">
+                  Click Destination URL (Target Link) <span className="text-red-600">*</span>
+                </label>
+                <div className="relative">
+                  <Link2 className="w-4 h-4 text-zinc-400 absolute left-3 top-2.5" />
+                  <input
+                    type="text"
+                    required
+                    value={adTargetUrl}
+                    onChange={(e) => setAdTargetUrl(e.target.value)}
+                    placeholder="https://wa.me/2348012345678 or https://yourbrand.com"
+                    className="w-full pl-9 pr-3 py-2 text-xs bg-white border border-zinc-300 rounded-lg focus:outline-none focus:ring-1 focus:ring-red-600 font-mono"
+                  />
+                </div>
+
+                {/* Quick Destination Helpers */}
+                <div className="flex flex-wrap items-center gap-1.5 pt-1">
+                  <span className="text-[10px] text-zinc-400 font-bold uppercase mr-1">
+                    Quick Presets:
+                  </span>
+                  <button
+                    type="button"
+                    onClick={() => setAdTargetUrl('https://wa.me/234')}
+                    className="text-[10px] px-2 py-0.5 bg-emerald-50 text-emerald-700 hover:bg-emerald-100 rounded border border-emerald-200 transition-colors"
+                  >
+                    WhatsApp Chat Link (wa.me)
+                  </button>
+                  <button
+                    type="button"
+                    onClick={() => setAdTargetUrl('https://')}
+                    className="text-[10px] px-2 py-0.5 bg-blue-50 text-blue-700 hover:bg-blue-100 rounded border border-blue-200 transition-colors"
+                  >
+                    Website (https://)
+                  </button>
+                  <button
+                    type="button"
+                    onClick={() => setAdTargetUrl('mailto:advertise@delsublog.ng')}
+                    className="text-[10px] px-2 py-0.5 bg-zinc-100 text-zinc-700 hover:bg-zinc-200 rounded border border-zinc-200 transition-colors"
+                  >
+                    Ad Desk Email (mailto:)
+                  </button>
+                  <button
+                    type="button"
+                    onClick={() => setAdTargetUrl('tel:+234')}
+                    className="text-[10px] px-2 py-0.5 bg-amber-50 text-amber-700 hover:bg-amber-100 rounded border border-amber-200 transition-colors"
+                  >
+                    Phone Call (tel:)
+                  </button>
+                </div>
+              </div>
+
+              {/* Status Switch */}
+              <div className="p-3 bg-zinc-50 rounded-xl border border-zinc-200 flex items-center justify-between">
+                <div>
+                  <span className="text-xs font-bold text-zinc-900 block">
+                    Activate Advertisement on Live Site
+                  </span>
+                  <span className="text-[11px] text-zinc-500">
+                    When enabled, this banner replaces the default placeholder on the website.
+                  </span>
+                </div>
+                <label className="relative inline-flex items-center cursor-pointer">
+                  <input
+                    type="checkbox"
+                    checked={adIsActive}
+                    onChange={(e) => setAdIsActive(e.target.checked)}
+                    className="sr-only peer"
+                  />
+                  <div className="w-11 h-6 bg-zinc-300 peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-zinc-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-emerald-600"></div>
+                </label>
+              </div>
+
+              {/* Modal Footer Buttons */}
+              <div className="flex items-center justify-end gap-3 pt-4 border-t border-zinc-200">
+                <button
+                  type="button"
+                  onClick={() => setIsAdModalOpen(false)}
+                  className="px-4 py-2 text-xs font-bold text-zinc-600 hover:text-zinc-900"
+                >
+                  Cancel
+                </button>
+                <button
+                  type="submit"
+                  disabled={isSavingAd}
+                  className="px-5 py-2 bg-red-600 hover:bg-red-700 disabled:opacity-50 text-white text-xs font-bold rounded-lg shadow-sm transition-colors flex items-center gap-1.5"
+                >
+                  <Save className="w-3.5 h-3.5" />
+                  <span>{isSavingAd ? 'Saving Banner...' : 'Save & Deploy Advertisement'}</span>
                 </button>
               </div>
 
