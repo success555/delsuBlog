@@ -4,6 +4,7 @@ import React, { useState, useEffect } from 'react';
 import Link from 'next/link';
 import { WatClock } from '@/components/ui/WatClock';
 import { LiteModeToggle } from '@/components/ui/LiteModeToggle';
+import { DarkModeToggle } from '@/components/ui/DarkModeToggle';
 import { Flame, ChevronRight, MessageCircle } from 'lucide-react';
 
 const BREAKING_HEADLINES = [
@@ -80,6 +81,8 @@ export function Header() {
             </a>
 
             <div className="h-3.5 w-px bg-zinc-700 hidden sm:block" />
+
+            <DarkModeToggle variant="header" />
 
             <LiteModeToggle />
           </div>

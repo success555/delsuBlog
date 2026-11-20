@@ -67,23 +67,23 @@ export function SearchModal({ isOpen, onClose }: SearchModalProps) {
         aria-hidden="true"
       />
       
-      <div className="relative w-full max-w-2xl bg-white rounded-xl shadow-2xl border border-red-100 overflow-hidden z-10">
+      <div className="relative w-full max-w-2xl bg-white dark:bg-zinc-900 rounded-xl shadow-2xl border border-red-100 dark:border-zinc-800 overflow-hidden z-10 transition-colors">
         {/* Header & Search Input */}
-        <form onSubmit={handleSubmit} className="flex items-center px-4 py-3.5 border-b border-zinc-200 bg-white">
-          <Search className="w-5 h-5 text-red-600 mr-3 shrink-0" />
+        <form onSubmit={handleSubmit} className="flex items-center px-4 py-3.5 border-b border-zinc-200 dark:border-zinc-800 bg-white dark:bg-zinc-900">
+          <Search className="w-5 h-5 text-red-600 dark:text-red-400 mr-3 shrink-0" />
           <input
             ref={inputRef}
             type="text"
             value={query}
             onChange={(e) => setQuery(e.target.value)}
             placeholder="Search DELSU updates, Naija news, tech, Afrobeats..."
-            className="w-full text-base bg-transparent focus:outline-none text-zinc-900 placeholder:text-zinc-400"
+            className="w-full text-base bg-transparent focus:outline-none text-zinc-900 dark:text-zinc-100 placeholder:text-zinc-400 dark:placeholder:text-zinc-500"
           />
           {query && (
             <button
               type="button"
               onClick={() => setQuery('')}
-              className="p-1 text-zinc-400 hover:text-zinc-600"
+              className="p-1 text-zinc-400 hover:text-zinc-600 dark:hover:text-zinc-200"
             >
               <X className="w-4 h-4" />
             </button>
@@ -91,14 +91,14 @@ export function SearchModal({ isOpen, onClose }: SearchModalProps) {
           <button
             type="button"
             onClick={onClose}
-            className="ml-2 px-2 py-1 text-xs font-semibold text-zinc-600 hover:text-red-600 bg-zinc-100 rounded"
+            className="ml-2 px-2 py-1 text-xs font-semibold text-zinc-600 dark:text-zinc-400 hover:text-red-600 dark:hover:text-red-400 bg-zinc-100 dark:bg-zinc-800 rounded"
           >
             ESC
           </button>
         </form>
 
         {/* Results Body */}
-        <div className="max-h-[60vh] overflow-y-auto p-4 divide-y divide-zinc-100">
+        <div className="max-h-[60vh] overflow-y-auto p-4 divide-y divide-zinc-100 dark:divide-zinc-800">
           {isLoading && (
             <div className="py-8 text-center text-zinc-400 text-sm">
               Searching articles...
@@ -107,16 +107,16 @@ export function SearchModal({ isOpen, onClose }: SearchModalProps) {
 
           {!isLoading && query && results.length === 0 && (
             <div className="py-8 text-center">
-              <p className="text-zinc-600 font-medium">No articles found for &ldquo;{query}&rdquo;</p>
-              <p className="text-xs text-zinc-400 mt-1">Try searching for &quot;DELSU&quot;, &quot;Senate&quot;, &quot;Afrobeats&quot;, or &quot;Fintech&quot;</p>
+              <p className="text-zinc-600 dark:text-zinc-300 font-medium">No articles found for &ldquo;{query}&rdquo;</p>
+              <p className="text-xs text-zinc-400 dark:text-zinc-500 mt-1">Try searching for &quot;DELSU&quot;, &quot;Senate&quot;, &quot;Afrobeats&quot;, or &quot;Fintech&quot;</p>
             </div>
           )}
 
           {!isLoading && !query && (
-            <div className="py-6 px-2 text-center text-zinc-500">
+            <div className="py-6 px-2 text-center text-zinc-500 dark:text-zinc-400">
               <BookOpen className="w-8 h-8 text-red-400 mx-auto mb-2 opacity-80" />
-              <p className="text-sm font-medium text-zinc-700">Quick Search Delsu Abraka Blog</p>
-              <p className="text-xs text-zinc-400 mt-1">Type keywords to search across all stories, campus updates, and headlines.</p>
+              <p className="text-sm font-medium text-zinc-700 dark:text-zinc-300">Quick Search Delsu Abraka Blog</p>
+              <p className="text-xs text-zinc-400 dark:text-zinc-500 mt-1">Type keywords to search across all stories, campus updates, and headlines.</p>
               
               <div className="flex flex-wrap items-center justify-center gap-2 mt-4">
                 {['DELSU Senate', 'Abraka Hub', 'Flutterwave', 'Burna Boy', 'Super Eagles', 'Japa'].map((tag) => (
@@ -124,7 +124,7 @@ export function SearchModal({ isOpen, onClose }: SearchModalProps) {
                     key={tag}
                     type="button"
                     onClick={() => setQuery(tag)}
-                    className="text-xs px-2.5 py-1 bg-red-50 text-red-700 rounded-full hover:bg-red-100 border border-red-200 transition-colors"
+                    className="text-xs px-2.5 py-1 bg-red-50 dark:bg-zinc-800 text-red-700 dark:text-red-300 rounded-full hover:bg-red-100 dark:hover:bg-zinc-700 border border-red-200 dark:border-zinc-700 transition-colors"
                   >
                     #{tag}
                   </button>
@@ -138,30 +138,30 @@ export function SearchModal({ isOpen, onClose }: SearchModalProps) {
               key={post.id}
               href={`/blog/${post.slug}`}
               onClick={onClose}
-              className="flex items-start justify-between py-3 px-2 group hover:bg-red-50/60 rounded-lg transition-colors"
+              className="flex items-start justify-between py-3 px-2 group hover:bg-red-50/60 dark:hover:bg-zinc-800/60 rounded-lg transition-colors"
             >
               <div className="pr-4">
-                <span className="inline-block text-[10px] font-bold uppercase tracking-wider text-red-600 mb-1">
+                <span className="inline-block text-[10px] font-bold uppercase tracking-wider text-red-600 dark:text-red-400 mb-1">
                   {post.category.replace('-', ' ')}
                 </span>
-                <h4 className="text-sm font-semibold text-zinc-900 group-hover:text-red-700 line-clamp-1">
+                <h4 className="text-sm font-semibold text-zinc-900 dark:text-zinc-100 group-hover:text-red-700 dark:group-hover:text-red-400 line-clamp-1">
                   {post.title}
                 </h4>
-                <p className="text-xs text-zinc-500 line-clamp-1 mt-0.5">
+                <p className="text-xs text-zinc-500 dark:text-zinc-400 line-clamp-1 mt-0.5">
                   {post.excerpt}
                 </p>
               </div>
-              <ArrowRight className="w-4 h-4 text-zinc-400 group-hover:text-red-600 shrink-0 self-center transform group-hover:translate-x-1 transition-all" />
+              <ArrowRight className="w-4 h-4 text-zinc-400 group-hover:text-red-600 dark:group-hover:text-red-400 shrink-0 self-center transform group-hover:translate-x-1 transition-all" />
             </Link>
           ))}
         </div>
 
         {results.length > 0 && (
-          <div className="p-3 bg-zinc-50 border-t border-zinc-200 flex justify-between items-center text-xs text-zinc-500">
+          <div className="p-3 bg-zinc-50 dark:bg-zinc-900 border-t border-zinc-200 dark:border-zinc-800 flex justify-between items-center text-xs text-zinc-500 dark:text-zinc-400">
             <span>Found {results.length} result(s)</span>
             <button
               onClick={handleSubmit}
-              className="text-red-600 font-semibold hover:underline flex items-center gap-1"
+              className="text-red-600 dark:text-red-400 font-semibold hover:underline flex items-center gap-1"
             >
               View all results <ArrowRight className="w-3.5 h-3.5" />
             </button>

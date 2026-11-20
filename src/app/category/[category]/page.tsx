@@ -72,10 +72,10 @@ export default async function CategoryPage({ params }: CategoryPageProps) {
 
       {/* Articles Grid */}
       {posts.length === 0 ? (
-        <div className="py-16 text-center bg-zinc-50 rounded-2xl border border-dashed border-zinc-300 p-6">
+        <div className="py-16 text-center bg-zinc-50 dark:bg-zinc-900 rounded-2xl border border-dashed border-zinc-300 dark:border-zinc-800 p-6">
           <BookOpen className="w-10 h-10 text-red-500 mx-auto mb-3 opacity-70" />
-          <p className="text-base font-bold text-zinc-800">No published stories in &quot;{categoryInfo.name}&quot; yet.</p>
-          <p className="text-xs text-zinc-500 mt-1 max-w-sm mx-auto">
+          <p className="text-base font-bold text-zinc-800 dark:text-zinc-200">No published stories in &quot;{categoryInfo.name}&quot; yet.</p>
+          <p className="text-xs text-zinc-500 dark:text-zinc-400 mt-1 max-w-sm mx-auto">
             Our campus reporters and desk editors are actively working on stories. You can publish an article in this category from the Admin CMS.
           </p>
           <div className="mt-5 flex items-center justify-center gap-3">
@@ -98,12 +98,12 @@ export default async function CategoryPage({ params }: CategoryPageProps) {
           {posts.map((post) => (
             <article
               key={post.id}
-              className="group bg-white rounded-2xl border border-zinc-200 overflow-hidden hover:border-red-400 hover:shadow-md transition-all flex flex-col justify-between"
+              className="group bg-white dark:bg-zinc-900 rounded-2xl border border-zinc-200 dark:border-zinc-800 overflow-hidden hover:border-red-400 dark:hover:border-red-500 hover:shadow-md transition-all flex flex-col justify-between"
             >
               <div>
                 <Link
                   href={`/blog/${post.slug}`}
-                  className="relative aspect-[16/10] block overflow-hidden bg-zinc-100"
+                  className="relative aspect-[16/10] block overflow-hidden bg-zinc-100 dark:bg-zinc-800"
                 >
                   <OptimizedImage
                     src={post.cover_image}
@@ -119,7 +119,7 @@ export default async function CategoryPage({ params }: CategoryPageProps) {
                 </Link>
 
                 <div className="p-5">
-                  <div className="flex items-center gap-2 text-[11px] text-zinc-500 mb-2 font-medium">
+                  <div className="flex items-center gap-2 text-[11px] text-zinc-500 dark:text-zinc-400 mb-2 font-medium">
                     <span>{formatWATDate(post.published_at, { format: 'short' })}</span>
                     <span>•</span>
                     <span className="flex items-center gap-1">
@@ -128,25 +128,25 @@ export default async function CategoryPage({ params }: CategoryPageProps) {
                     </span>
                   </div>
 
-                  <h2 className="text-base font-bold text-zinc-950 group-hover:text-red-600 transition-colors line-clamp-2 leading-snug mb-2">
+                  <h2 className="text-base font-bold text-zinc-950 dark:text-zinc-100 group-hover:text-red-600 dark:group-hover:text-red-400 transition-colors line-clamp-2 leading-snug mb-2">
                     <Link href={`/blog/${post.slug}`}>
                       {post.title}
                     </Link>
                   </h2>
 
-                  <p className="text-xs text-zinc-600 line-clamp-3 leading-relaxed">
+                  <p className="text-xs text-zinc-600 dark:text-zinc-300 line-clamp-3 leading-relaxed">
                     {post.excerpt}
                   </p>
                 </div>
               </div>
 
-              <div className="p-5 pt-0 border-t border-zinc-100 mt-2 flex items-center justify-between text-xs">
-                <span className="text-[11px] font-semibold text-zinc-700">
+              <div className="p-5 pt-0 border-t border-zinc-100 dark:border-zinc-800 mt-2 flex items-center justify-between text-xs">
+                <span className="text-[11px] font-semibold text-zinc-700 dark:text-zinc-300">
                   By {post.author_name}
                 </span>
                 <Link
                   href={`/blog/${post.slug}`}
-                  className="font-bold text-red-600 hover:text-red-700 flex items-center gap-0.5"
+                  className="font-bold text-red-600 dark:text-red-400 hover:text-red-700 dark:hover:text-red-300 flex items-center gap-0.5"
                 >
                   Read Story →
                 </Link>

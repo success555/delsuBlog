@@ -64,3 +64,4 @@ If no keys are configured, the application **automatically runs in Local Offline
 - Articles & categories read from `/src/data/posts.json` and `/src/data/categories.json`.
 - Uploaded images save to `/public/uploads/`.
 - Once you add your live keys to `.env.local`, the application seamlessly switches to live Supabase, Clerk, and Resend without needing any code changes!
+

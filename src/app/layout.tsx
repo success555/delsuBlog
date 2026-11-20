@@ -1,5 +1,6 @@
 import type { Metadata } from 'next';
 import './globals.css';
+import { ThemeProvider } from '@/context/ThemeContext';
 import { LiteModeProvider } from '@/context/LiteModeContext';
 import { AuthProvider } from '@/components/auth/AuthProvider';
 import { Header } from '@/components/layout/Header';
@@ -69,25 +70,47 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    <html lang="en" className="scroll-smooth">
-      <body className="min-h-screen flex flex-col bg-white text-zinc-900 antialiased selection:bg-red-100 selection:text-red-800">
-        <AuthProvider>
-          <LiteModeProvider>
-            {/* Top Bar with Breaking Ticker, WAT Clock, and Lite Mode toggle */}
-            <Header />
-            
-            {/* Sticky Navigation Bar */}
-            <Navbar />
+    <html lang="en" className="scroll-smooth" suppressHydrationWarning>
+      <head>
+        {/* Anti-FOUC Theme Script */}
+        <script
+          dangerouslySetInnerHTML={{
+            __html: `
+              (function() {
+                try {
+                  var saved = localStorage.getItem('delsu_blog_theme');
+                  var prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+                  if (saved === 'dark' || (!saved && prefersDark)) {
+                    document.documentElement.classList.add('dark');
+                  } else {
+                    document.documentElement.classList.remove('dark');
+                  }
+                } catch (e) {}
+              })();
+            `,
+          }}
+        />
+      </head>
+      <body className="min-h-screen flex flex-col bg-white dark:bg-zinc-950 text-zinc-900 dark:text-zinc-100 antialiased selection:bg-red-100 selection:text-red-800 transition-colors duration-200">
+        <ThemeProvider>
+          <AuthProvider>
+            <LiteModeProvider>
+              {/* Top Bar with Breaking Ticker, WAT Clock, Dark Mode & Lite Mode toggle */}
+              <Header />
+              
+              {/* Sticky Navigation Bar */}
+              <Navbar />
 
-            {/* Main Content Viewport */}
-            <main className="flex-1">
-              {children}
-            </main>
+              {/* Main Content Viewport */}
+              <main className="flex-1">
+                {children}
+              </main>
 
-            {/* Global Footer */}
-            <Footer />
-          </LiteModeProvider>
-        </AuthProvider>
+              {/* Global Footer */}
+              <Footer />
+            </LiteModeProvider>
+          </AuthProvider>
+        </ThemeProvider>
       </body>
     </html>
   );

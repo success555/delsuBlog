@@ -12,14 +12,14 @@ export function ReadAlsoBox({ post }: ReadAlsoBoxProps) {
   if (!post) return null;
 
   return (
-    <aside className="my-8 p-4 sm:p-5 bg-red-50/60 border-l-4 border-red-600 rounded-r-xl shadow-xs">
-      <div className="flex items-center gap-1.5 text-xs font-black uppercase tracking-wider text-red-600 mb-2">
+    <aside className="my-8 p-4 sm:p-5 bg-red-50/60 dark:bg-zinc-900 border-l-4 border-red-600 rounded-r-xl shadow-xs transition-colors">
+      <div className="flex items-center gap-1.5 text-xs font-black uppercase tracking-wider text-red-600 dark:text-red-400 mb-2">
         <BookOpen className="w-4 h-4" />
         <span>READ ALSO:</span>
       </div>
 
       <div className="flex items-center gap-4">
-        <div className="relative w-20 h-16 sm:w-24 sm:h-16 rounded-lg overflow-hidden shrink-0 bg-zinc-200">
+        <div className="relative w-20 h-16 sm:w-24 sm:h-16 rounded-lg overflow-hidden shrink-0 bg-zinc-200 dark:bg-zinc-800">
           <OptimizedImage
             src={post.cover_image}
             alt={post.title}
@@ -29,13 +29,13 @@ export function ReadAlsoBox({ post }: ReadAlsoBoxProps) {
         </div>
 
         <div className="flex-1 min-w-0">
-          <h4 className="text-sm sm:text-base font-bold text-zinc-950 hover:text-red-600 transition-colors line-clamp-2 leading-snug">
+          <h4 className="text-sm sm:text-base font-bold text-zinc-950 dark:text-zinc-100 hover:text-red-600 dark:hover:text-red-400 transition-colors line-clamp-2 leading-snug">
             <Link href={`/blog/${post.slug}`}>
               {post.title}
             </Link>
           </h4>
-          <div className="flex items-center gap-2 text-[11px] text-zinc-500 mt-1">
-            <span className="uppercase text-red-600 font-semibold">{post.category.replace('-', ' ')}</span>
+          <div className="flex items-center gap-2 text-[11px] text-zinc-500 dark:text-zinc-400 mt-1">
+            <span className="uppercase text-red-600 dark:text-red-400 font-semibold">{post.category.replace('-', ' ')}</span>
             <span>•</span>
             <span>{post.reading_time}</span>
           </div>
@@ -43,7 +43,7 @@ export function ReadAlsoBox({ post }: ReadAlsoBoxProps) {
 
         <Link
           href={`/blog/${post.slug}`}
-          className="hidden sm:inline-flex p-2 bg-white rounded-full text-red-600 hover:bg-red-600 hover:text-white transition-colors shrink-0 shadow-xs border border-red-100"
+          className="hidden sm:inline-flex p-2 bg-white dark:bg-zinc-800 rounded-full text-red-600 dark:text-red-400 hover:bg-red-600 hover:text-white dark:hover:bg-red-600 dark:hover:text-white transition-colors shrink-0 shadow-xs border border-red-100 dark:border-zinc-700"
           aria-label="Read recommended post"
         >
           <ArrowRight className="w-4 h-4" />

@@ -27,8 +27,8 @@ export function HeroGrid({ leadPost, secondaryPosts }: HeroGridProps) {
         
         {/* Main Lead Story (7 cols on desktop) */}
         <div className="lg:col-span-7">
-          <article className="group relative bg-white border border-zinc-200 rounded-2xl overflow-hidden shadow-sm hover:shadow-md transition-all flex flex-col h-full">
-            <Link href={`/blog/${leadPost.slug}`} className="block relative aspect-[16/10] overflow-hidden bg-zinc-100">
+          <article className="group relative bg-white dark:bg-zinc-900 border border-zinc-200 dark:border-zinc-800 rounded-2xl overflow-hidden shadow-sm hover:shadow-md transition-all flex flex-col h-full">
+            <Link href={`/blog/${leadPost.slug}`} className="block relative aspect-[16/10] overflow-hidden bg-zinc-100 dark:bg-zinc-800">
               <OptimizedImage
                 src={leadPost.cover_image}
                 alt={leadPost.title}
@@ -50,8 +50,8 @@ export function HeroGrid({ leadPost, secondaryPosts }: HeroGridProps) {
 
             <div className="p-5 sm:p-6 flex flex-col flex-grow justify-between">
               <div>
-                <div className="flex items-center gap-3 text-xs text-zinc-500 mb-2.5 font-medium">
-                  <span className="text-red-600 font-bold uppercase tracking-wider">
+                <div className="flex items-center gap-3 text-xs text-zinc-500 dark:text-zinc-400 mb-2.5 font-medium">
+                  <span className="text-red-600 dark:text-red-400 font-bold uppercase tracking-wider">
                     {leadPost.category.replace('-', ' ')}
                   </span>
                   <span>•</span>
@@ -63,19 +63,19 @@ export function HeroGrid({ leadPost, secondaryPosts }: HeroGridProps) {
                   </span>
                 </div>
 
-                <h1 className="text-xl sm:text-2xl lg:text-3xl font-black text-zinc-900 group-hover:text-red-600 transition-colors tracking-tight leading-tight mb-3">
+                <h1 className="text-xl sm:text-2xl lg:text-3xl font-black text-zinc-900 dark:text-white group-hover:text-red-600 dark:group-hover:text-red-400 transition-colors tracking-tight leading-tight mb-3">
                   <Link href={`/blog/${leadPost.slug}`}>
                     {leadPost.title}
                   </Link>
                 </h1>
 
-                <p className="text-sm text-zinc-600 line-clamp-3 leading-relaxed mb-4">
+                <p className="text-sm text-zinc-600 dark:text-zinc-300 line-clamp-3 leading-relaxed mb-4">
                   {leadPost.excerpt}
                 </p>
               </div>
 
               {/* Author Footer */}
-              <div className="pt-4 border-t border-zinc-100 flex items-center justify-between">
+              <div className="pt-4 border-t border-zinc-100 dark:border-zinc-800 flex items-center justify-between">
                 <div className="flex items-center gap-2.5">
                   <StaffAvatar
                     name={leadPost.author_name}
@@ -83,10 +83,10 @@ export function HeroGrid({ leadPost, secondaryPosts }: HeroGridProps) {
                     size="sm"
                   />
                   <div>
-                    <span className="text-xs font-bold text-zinc-900 block leading-tight">
+                    <span className="text-xs font-bold text-zinc-900 dark:text-zinc-100 block leading-tight">
                       {leadPost.author_name}
                     </span>
-                    <span className="text-[10px] text-zinc-500 block">
+                    <span className="text-[10px] text-zinc-500 dark:text-zinc-400 block">
                       {leadPost.author_role}
                     </span>
                   </div>
@@ -94,7 +94,7 @@ export function HeroGrid({ leadPost, secondaryPosts }: HeroGridProps) {
 
                 <Link
                   href={`/blog/${leadPost.slug}`}
-                  className="text-xs font-bold text-red-600 hover:text-red-700 flex items-center gap-1 group-hover:translate-x-1 transition-all"
+                  className="text-xs font-bold text-red-600 dark:text-red-400 hover:text-red-700 dark:hover:text-red-300 flex items-center gap-1 group-hover:translate-x-1 transition-all"
                 >
                   Read Story →
                 </Link>
@@ -108,11 +108,11 @@ export function HeroGrid({ leadPost, secondaryPosts }: HeroGridProps) {
           {secondaryPosts.slice(0, 3).map((post, idx) => (
             <article
               key={post.id}
-              className="group bg-white border border-zinc-200 rounded-xl p-3 sm:p-4 hover:border-red-300 hover:shadow-sm transition-all flex gap-4 items-center"
+              className="group bg-white dark:bg-zinc-900 border border-zinc-200 dark:border-zinc-800 rounded-xl p-3 sm:p-4 hover:border-red-300 dark:hover:border-red-500 hover:shadow-sm transition-all flex gap-4 items-center"
             >
               <Link
                 href={`/blog/${post.slug}`}
-                className="relative w-28 h-24 sm:w-32 sm:h-24 rounded-lg overflow-hidden shrink-0 bg-zinc-100"
+                className="relative w-28 h-24 sm:w-32 sm:h-24 rounded-lg overflow-hidden shrink-0 bg-zinc-100 dark:bg-zinc-800"
               >
                 <OptimizedImage
                   src={post.cover_image}
@@ -126,21 +126,21 @@ export function HeroGrid({ leadPost, secondaryPosts }: HeroGridProps) {
               </Link>
 
               <div className="flex flex-col flex-1 min-w-0">
-                <div className="flex items-center gap-2 text-[11px] text-zinc-500 mb-1">
-                  <span className="text-red-600 font-bold uppercase tracking-wider text-[10px]">
+                <div className="flex items-center gap-2 text-[11px] text-zinc-500 dark:text-zinc-400 mb-1">
+                  <span className="text-red-600 dark:text-red-400 font-bold uppercase tracking-wider text-[10px]">
                     {post.category.replace('-', ' ')}
                   </span>
                   <span>•</span>
                   <span>{post.reading_time}</span>
                 </div>
 
-                <h3 className="text-xs sm:text-sm font-bold text-zinc-900 group-hover:text-red-600 transition-colors line-clamp-2 leading-snug">
+                <h3 className="text-xs sm:text-sm font-bold text-zinc-900 dark:text-zinc-100 group-hover:text-red-600 dark:group-hover:text-red-400 transition-colors line-clamp-2 leading-snug">
                   <Link href={`/blog/${post.slug}`}>
                     {post.title}
                   </Link>
                 </h3>
 
-                <span className="text-[10px] text-zinc-400 mt-1">
+                <span className="text-[10px] text-zinc-400 dark:text-zinc-500 mt-1">
                   {formatWATDate(post.published_at, { format: 'relative' })}
                 </span>
               </div>

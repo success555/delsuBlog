@@ -118,19 +118,19 @@ export default async function ArticlePage({ params }: ArticlePageProps) {
       </div>
 
       {/* Main Headline */}
-      <h1 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-black text-zinc-950 font-sans tracking-tight leading-tight mb-4">
+      <h1 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-black text-zinc-950 dark:text-white font-sans tracking-tight leading-tight mb-4">
         {post.title}
       </h1>
 
       {/* Deck / Excerpt */}
       {post.excerpt && (
-        <p className="text-base sm:text-lg text-zinc-600 leading-relaxed font-sans mb-6 font-medium border-l-4 border-red-500 pl-4 py-0.5">
+        <p className="text-base sm:text-lg text-zinc-600 dark:text-zinc-300 leading-relaxed font-sans mb-6 font-medium border-l-4 border-red-500 pl-4 py-0.5">
           {post.excerpt}
         </p>
       )}
 
       {/* Metadata Bar (Author, WAT Date, Reading Time, Views) */}
-      <div className="flex flex-wrap items-center justify-between py-3 border-y border-zinc-200 text-xs text-zinc-600 mb-6 gap-3">
+      <div className="flex flex-wrap items-center justify-between py-3 border-y border-zinc-200 dark:border-zinc-800 text-xs text-zinc-600 dark:text-zinc-400 mb-6 gap-3">
         <div className="flex items-center gap-3">
           <StaffAvatar
             name={post.author_name}
@@ -138,16 +138,16 @@ export default async function ArticlePage({ params }: ArticlePageProps) {
             size="md"
           />
           <div>
-            <span className="font-bold text-zinc-900 block leading-tight">
+            <span className="font-bold text-zinc-900 dark:text-zinc-100 block leading-tight">
               By {post.author_name}
             </span>
-            <span className="text-[11px] text-zinc-500">
+            <span className="text-[11px] text-zinc-500 dark:text-zinc-400">
               {post.author_role}
             </span>
           </div>
         </div>
 
-        <div className="flex items-center gap-3 text-zinc-500 font-mono text-[11px]">
+        <div className="flex items-center gap-3 text-zinc-500 dark:text-zinc-400 font-mono text-[11px]">
           <span className="flex items-center gap-1">
             <Calendar className="w-3.5 h-3.5 text-red-600" />
             {formatWATDate(post.published_at, { includeTime: true })}
@@ -158,7 +158,7 @@ export default async function ArticlePage({ params }: ArticlePageProps) {
             {post.reading_time}
           </span>
           <span>•</span>
-          <span className="flex items-center gap-1 text-zinc-700 font-bold">
+          <span className="flex items-center gap-1 text-zinc-700 dark:text-zinc-300 font-bold">
             <Eye className="w-3.5 h-3.5 text-red-500" />
             {(post.views_count || 1400).toLocaleString()} reads
           </span>
@@ -169,7 +169,7 @@ export default async function ArticlePage({ params }: ArticlePageProps) {
       <SocialShareBar title={post.title} slug={post.slug} />
 
       {/* Article Cover Image with Lite Mode Support */}
-      <div className="relative aspect-[16/9] w-full rounded-2xl overflow-hidden my-6 bg-zinc-100 shadow-md">
+      <div className="relative aspect-[16/9] w-full rounded-2xl overflow-hidden my-6 bg-zinc-100 dark:bg-zinc-800 shadow-md">
         <OptimizedImage
           src={post.cover_image}
           alt={post.title}
@@ -180,7 +180,7 @@ export default async function ArticlePage({ params }: ArticlePageProps) {
       </div>
 
       {/* Article Rich Typography Body with In-Article "Read Also" */}
-      <div className="article-prose text-zinc-900 leading-relaxed font-serif text-lg my-8">
+      <div className="article-prose text-zinc-900 dark:text-zinc-100 leading-relaxed font-serif text-lg my-8">
         {rawParagraphs.map((para, index) => (
           <React.Fragment key={index}>
             <p>{para}</p>
@@ -202,7 +202,7 @@ export default async function ArticlePage({ params }: ArticlePageProps) {
       </div>
 
       {/* Second Social Share Bar */}
-      <div className="pt-6 border-t border-zinc-200">
+      <div className="pt-6 border-t border-zinc-200 dark:border-zinc-800">
         <SocialShareBar title={post.title} slug={post.slug} />
       </div>
 
@@ -215,14 +215,14 @@ export default async function ArticlePage({ params }: ArticlePageProps) {
 
       {/* Related Stories Grid */}
       {related.length > 0 && (
-        <section className="my-10 pt-8 border-t-2 border-zinc-200">
+        <section className="my-10 pt-8 border-t-2 border-zinc-200 dark:border-zinc-800">
           <div className="flex items-center justify-between mb-6">
-            <h3 className="text-lg font-black uppercase tracking-tight text-zinc-950 font-sans">
+            <h3 className="text-lg font-black uppercase tracking-tight text-zinc-950 dark:text-white font-sans">
               More Stories You Might Like
             </h3>
             <Link
               href={`/category/${post.category}`}
-              className="text-xs font-bold text-red-600 hover:underline uppercase"
+              className="text-xs font-bold text-red-600 dark:text-red-400 hover:underline uppercase"
             >
               See all {post.category.replace('-', ' ')} →
             </Link>
@@ -233,9 +233,9 @@ export default async function ArticlePage({ params }: ArticlePageProps) {
               <Link
                 key={rel.id}
                 href={`/blog/${rel.slug}`}
-                className="group block bg-white rounded-xl border border-zinc-200 overflow-hidden hover:border-red-400 hover:shadow-sm transition-all"
+                className="group block bg-white dark:bg-zinc-900 rounded-xl border border-zinc-200 dark:border-zinc-800 overflow-hidden hover:border-red-400 dark:hover:border-red-500 hover:shadow-sm transition-all"
               >
-                <div className="relative aspect-[16/10] bg-zinc-100 overflow-hidden">
+                <div className="relative aspect-[16/10] bg-zinc-100 dark:bg-zinc-800 overflow-hidden">
                   <OptimizedImage
                     src={rel.cover_image}
                     alt={rel.title}
@@ -244,10 +244,10 @@ export default async function ArticlePage({ params }: ArticlePageProps) {
                   />
                 </div>
                 <div className="p-3.5">
-                  <span className="text-[10px] font-bold uppercase text-red-600 block mb-1">
+                  <span className="text-[10px] font-bold uppercase text-red-600 dark:text-red-400 block mb-1">
                     {rel.reading_time}
                   </span>
-                  <h4 className="text-xs font-bold text-zinc-900 group-hover:text-red-600 transition-colors line-clamp-2 leading-snug">
+                  <h4 className="text-xs font-bold text-zinc-900 dark:text-zinc-100 group-hover:text-red-600 dark:group-hover:text-red-400 transition-colors line-clamp-2 leading-snug">
                     {rel.title}
                   </h4>
                 </div>

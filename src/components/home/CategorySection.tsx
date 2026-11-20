@@ -19,17 +19,17 @@ export function CategorySection({ category, posts }: CategorySectionProps) {
       {/* Category Header */}
       <div className="flex items-end justify-between pb-3 mb-6 border-b-2 border-red-600">
         <div>
-          <span className="text-[10px] font-bold uppercase tracking-widest text-red-600 block mb-0.5">
+          <span className="text-[10px] font-bold uppercase tracking-widest text-red-600 dark:text-red-400 block mb-0.5">
             Category Spotlight
           </span>
-          <h2 className="text-xl sm:text-2xl font-black text-zinc-950 font-sans tracking-tight">
+          <h2 className="text-xl sm:text-2xl font-black text-zinc-950 dark:text-white font-sans tracking-tight">
             {category.name}
           </h2>
         </div>
 
         <Link
           href={`/category/${category.slug}`}
-          className="inline-flex items-center gap-1 text-xs font-bold text-red-600 hover:text-red-700 uppercase tracking-wider group"
+          className="inline-flex items-center gap-1 text-xs font-bold text-red-600 dark:text-red-400 hover:text-red-700 dark:hover:text-red-300 uppercase tracking-wider group"
         >
           <span>View All</span>
           <ArrowRight className="w-3.5 h-3.5 transform group-hover:translate-x-1 transition-transform" />
@@ -41,11 +41,11 @@ export function CategorySection({ category, posts }: CategorySectionProps) {
         {posts.slice(0, 3).map((post) => (
           <article
             key={post.id}
-            className="group bg-white rounded-xl border border-zinc-200 overflow-hidden hover:border-red-400 hover:shadow-md transition-all flex flex-col"
+            className="group bg-white dark:bg-zinc-900 rounded-xl border border-zinc-200 dark:border-zinc-800 overflow-hidden hover:border-red-400 dark:hover:border-red-500 hover:shadow-md transition-all flex flex-col"
           >
             <Link
               href={`/blog/${post.slug}`}
-              className="relative aspect-[16/10] overflow-hidden bg-zinc-100"
+              className="relative aspect-[16/10] overflow-hidden bg-zinc-100 dark:bg-zinc-800"
             >
               <OptimizedImage
                 src={post.cover_image}
@@ -65,7 +65,7 @@ export function CategorySection({ category, posts }: CategorySectionProps) {
 
             <div className="p-4 sm:p-5 flex flex-col flex-grow justify-between">
               <div>
-                <div className="flex items-center gap-2 text-[11px] text-zinc-500 mb-2 font-medium">
+                <div className="flex items-center gap-2 text-[11px] text-zinc-500 dark:text-zinc-400 mb-2 font-medium">
                   <span>{formatWATDate(post.published_at, { format: 'short' })}</span>
                   <span>•</span>
                   <span className="flex items-center gap-1">
@@ -74,24 +74,24 @@ export function CategorySection({ category, posts }: CategorySectionProps) {
                   </span>
                 </div>
 
-                <h3 className="text-sm sm:text-base font-bold text-zinc-950 group-hover:text-red-600 transition-colors line-clamp-2 leading-snug mb-2">
+                <h3 className="text-sm sm:text-base font-bold text-zinc-950 dark:text-zinc-100 group-hover:text-red-600 dark:group-hover:text-red-400 transition-colors line-clamp-2 leading-snug mb-2">
                   <Link href={`/blog/${post.slug}`}>
                     {post.title}
                   </Link>
                 </h3>
 
-                <p className="text-xs text-zinc-600 line-clamp-2 leading-relaxed mb-4">
+                <p className="text-xs text-zinc-600 dark:text-zinc-300 line-clamp-2 leading-relaxed mb-4">
                   {post.excerpt}
                 </p>
               </div>
 
-              <div className="pt-3 border-t border-zinc-100 flex items-center justify-between text-xs">
-                <span className="text-[11px] font-semibold text-zinc-700">
+              <div className="pt-3 border-t border-zinc-100 dark:border-zinc-800 flex items-center justify-between text-xs">
+                <span className="text-[11px] font-semibold text-zinc-700 dark:text-zinc-300">
                   By {post.author_name}
                 </span>
                 <Link
                   href={`/blog/${post.slug}`}
-                  className="font-bold text-red-600 hover:text-red-700 flex items-center gap-0.5"
+                  className="font-bold text-red-600 dark:text-red-400 hover:text-red-700 dark:hover:text-red-300 flex items-center gap-0.5"
                 >
                   Read →
                 </Link>

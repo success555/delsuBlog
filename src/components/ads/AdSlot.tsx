@@ -21,8 +21,8 @@ export function AdSlot({
   // If Lite Mode is ON, collapse heavy ad spaces into minimal one-line notice to save data
   if (isLiteMode) {
     return (
-      <div className={`py-1 text-center border-y border-zinc-200 bg-zinc-50 ${className}`}>
-        <span className="text-[10px] text-zinc-400 uppercase tracking-widest">
+      <div className={`py-1 text-center border-y border-zinc-200 dark:border-zinc-800 bg-zinc-50 dark:bg-zinc-900 ${className}`}>
+        <span className="text-[10px] text-zinc-400 dark:text-zinc-500 uppercase tracking-widest">
           [Lite Mode: Ad placeholder condensed to save bandwidth]
         </span>
       </div>
@@ -32,14 +32,14 @@ export function AdSlot({
   if (type === 'leaderboard') {
     return (
       <div className={`w-full my-6 flex flex-col items-center ${className}`}>
-        <div className="w-full max-w-[728px] min-h-[90px] bg-zinc-50 border border-dashed border-red-200 rounded-lg flex flex-col items-center justify-center p-3 text-center transition-all hover:border-red-400">
-          <span className="text-[9px] font-bold uppercase tracking-widest text-zinc-400 mb-1">
+        <div className="w-full max-w-[728px] min-h-[90px] bg-zinc-50 dark:bg-zinc-900 border border-dashed border-red-200 dark:border-zinc-800 rounded-lg flex flex-col items-center justify-center p-3 text-center transition-all hover:border-red-400 dark:hover:border-red-500">
+          <span className="text-[9px] font-bold uppercase tracking-widest text-zinc-400 dark:text-zinc-500 mb-1">
             Advertisement • 728 × 90 Leaderboard
           </span>
-          <p className="text-xs font-semibold text-zinc-800">
+          <p className="text-xs font-semibold text-zinc-800 dark:text-zinc-200">
             {adText || 'Promote Your Campus Brand, Product or Event on Delsu Abraka Blog TV'}
           </p>
-          <span className="text-[11px] text-red-600 font-medium hover:underline cursor-pointer mt-0.5">
+          <span className="text-[11px] text-red-600 dark:text-red-400 font-medium hover:underline cursor-pointer mt-0.5">
             Contact Ad Desk: advertise@delsublog.ng
           </span>
         </div>
@@ -50,17 +50,17 @@ export function AdSlot({
   if (type === 'sidebar') {
     return (
       <div className={`w-full my-4 flex flex-col items-center ${className}`}>
-        <div className="w-full max-w-[300px] min-h-[250px] bg-zinc-50 border border-dashed border-red-200 rounded-xl flex flex-col items-center justify-center p-4 text-center transition-all hover:border-red-400">
-          <span className="text-[9px] font-bold uppercase tracking-widest text-zinc-400 mb-2">
+        <div className="w-full max-w-[300px] min-h-[250px] bg-zinc-50 dark:bg-zinc-900 border border-dashed border-red-200 dark:border-zinc-800 rounded-xl flex flex-col items-center justify-center p-4 text-center transition-all hover:border-red-400 dark:hover:border-red-500">
+          <span className="text-[9px] font-bold uppercase tracking-widest text-zinc-400 dark:text-zinc-500 mb-2">
             Sponsored • 300 × 250 Square
           </span>
-          <div className="w-12 h-12 bg-red-100 rounded-full flex items-center justify-center text-red-600 font-black text-sm mb-2">
+          <div className="w-12 h-12 bg-red-100 dark:bg-red-950/60 rounded-full flex items-center justify-center text-red-600 dark:text-red-400 font-black text-sm mb-2">
             AD
           </div>
-          <h4 className="text-sm font-bold text-zinc-900 line-clamp-2 mb-1">
+          <h4 className="text-sm font-bold text-zinc-900 dark:text-zinc-100 line-clamp-2 mb-1">
             {adText || 'Target 25,000+ DELSU Students and Nigerian Readers'}
           </h4>
-          <p className="text-[11px] text-zinc-500 mb-3">
+          <p className="text-[11px] text-zinc-500 dark:text-zinc-400 mb-3">
             {sponsorName}
           </p>
           <button
@@ -76,16 +76,16 @@ export function AdSlot({
 
   // in-article banner
   return (
-    <div className={`my-8 py-4 px-6 bg-red-50/50 border-l-4 border-red-600 rounded-r-lg ${className}`}>
+    <div className={`my-8 py-4 px-6 bg-red-50/50 dark:bg-zinc-900 border-l-4 border-red-600 rounded-r-lg transition-colors ${className}`}>
       <div className="flex flex-col sm:flex-row items-center justify-between gap-4">
         <div>
-          <span className="text-[10px] font-bold uppercase tracking-widest text-red-600 block mb-1">
+          <span className="text-[10px] font-bold uppercase tracking-widest text-red-600 dark:text-red-400 block mb-1">
             Sponsored Spotlight
           </span>
-          <p className="text-sm font-bold text-zinc-900">
+          <p className="text-sm font-bold text-zinc-900 dark:text-zinc-100">
             {adText || 'Need Fast Off-Campus Accommodation in Abraka or Student Deals?'}
           </p>
-          <p className="text-xs text-zinc-600 mt-0.5">
+          <p className="text-xs text-zinc-600 dark:text-zinc-400 mt-0.5">
             Check verified student listings, verified hostels, and campus offers on our bulletin.
           </p>
         </div>

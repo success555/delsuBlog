@@ -91,7 +91,7 @@ export function CommentsSection({ postSlug, initialComments }: CommentsSectionPr
   );
 
   return (
-    <section className="mt-12 pt-8 border-t-2 border-zinc-200">
+    <section className="mt-12 pt-8 border-t-2 border-zinc-200 dark:border-zinc-800 transition-colors">
       
       {/* Header */}
       <div className="flex items-center justify-between mb-6">
@@ -100,10 +100,10 @@ export function CommentsSection({ postSlug, initialComments }: CommentsSectionPr
             <MessageSquare className="w-5 h-5 fill-white" />
           </div>
           <div>
-            <h3 className="text-lg font-black uppercase tracking-tight text-zinc-950 font-sans">
+            <h3 className="text-lg font-black uppercase tracking-tight text-zinc-950 dark:text-white font-sans">
               Discussion & Student Opinions
             </h3>
-            <span className="text-xs text-zinc-500">
+            <span className="text-xs text-zinc-500 dark:text-zinc-400">
               {totalCount} {totalCount === 1 ? 'comment' : 'comments'} • Guest comments welcome (No login required)
             </span>
           </div>
@@ -111,21 +111,21 @@ export function CommentsSection({ postSlug, initialComments }: CommentsSectionPr
       </div>
 
       {successMessage && (
-        <div className="mb-6 p-3 bg-emerald-50 border border-emerald-300 text-emerald-800 rounded-xl text-xs flex items-center gap-2">
-          <CheckCircle2 className="w-4 h-4 text-emerald-600 shrink-0" />
+        <div className="mb-6 p-3 bg-emerald-50 dark:bg-emerald-950/40 border border-emerald-300 dark:border-emerald-700 text-emerald-800 dark:text-emerald-200 rounded-xl text-xs flex items-center gap-2">
+          <CheckCircle2 className="w-4 h-4 text-emerald-600 dark:text-emerald-400 shrink-0" />
           <span>Your comment has been posted successfully and is now visible to all readers!</span>
         </div>
       )}
 
       {/* Main Comment Form */}
-      <form onSubmit={handleSubmitTopLevel} className="mb-10 bg-zinc-50 p-5 rounded-2xl border border-zinc-200">
-        <h4 className="text-xs font-black uppercase tracking-wider text-zinc-800 mb-3">
+      <form onSubmit={handleSubmitTopLevel} className="mb-10 bg-zinc-50 dark:bg-zinc-900 p-5 rounded-2xl border border-zinc-200 dark:border-zinc-800 transition-colors">
+        <h4 className="text-xs font-black uppercase tracking-wider text-zinc-800 dark:text-zinc-200 mb-3">
           Leave a Comment or Gist
         </h4>
 
         <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 mb-3">
           <div>
-            <label className="block text-xs font-semibold text-zinc-700 mb-1">
+            <label className="block text-xs font-semibold text-zinc-700 dark:text-zinc-300 mb-1">
               Your Name / Nickname <span className="text-red-600">*</span>
             </label>
             <input
@@ -134,12 +134,12 @@ export function CommentsSection({ postSlug, initialComments }: CommentsSectionPr
               value={name}
               onChange={(e) => setName(e.target.value)}
               placeholder="e.g. Oghenero or 200L Law"
-              className="w-full px-3.5 py-2 text-xs bg-white border border-zinc-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-red-600"
+              className="w-full px-3.5 py-2 text-xs bg-white dark:bg-zinc-800 border border-zinc-300 dark:border-zinc-700 text-zinc-900 dark:text-zinc-100 rounded-lg focus:outline-none focus:ring-2 focus:ring-red-600"
             />
           </div>
 
           <div>
-            <label className="block text-xs font-semibold text-zinc-700 mb-1">
+            <label className="block text-xs font-semibold text-zinc-700 dark:text-zinc-300 mb-1">
               Email (Optional, won&apos;t be published)
             </label>
             <input
@@ -147,13 +147,13 @@ export function CommentsSection({ postSlug, initialComments }: CommentsSectionPr
               value={email}
               onChange={(e) => setEmail(e.target.value)}
               placeholder="youremail@example.com"
-              className="w-full px-3.5 py-2 text-xs bg-white border border-zinc-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-red-600"
+              className="w-full px-3.5 py-2 text-xs bg-white dark:bg-zinc-800 border border-zinc-300 dark:border-zinc-700 text-zinc-900 dark:text-zinc-100 rounded-lg focus:outline-none focus:ring-2 focus:ring-red-600"
             />
           </div>
         </div>
 
         <div className="mb-3">
-          <label className="block text-xs font-semibold text-zinc-700 mb-1">
+          <label className="block text-xs font-semibold text-zinc-700 dark:text-zinc-300 mb-1">
             Comment <span className="text-red-600">*</span>
           </label>
           <textarea
@@ -162,7 +162,7 @@ export function CommentsSection({ postSlug, initialComments }: CommentsSectionPr
             value={content}
             onChange={(e) => setContent(e.target.value)}
             placeholder="Share your thoughts or update on this story..."
-            className="w-full px-3.5 py-2.5 text-xs bg-white border border-zinc-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-red-600 resize-y"
+            className="w-full px-3.5 py-2.5 text-xs bg-white dark:bg-zinc-800 border border-zinc-300 dark:border-zinc-700 text-zinc-900 dark:text-zinc-100 rounded-lg focus:outline-none focus:ring-2 focus:ring-red-600 resize-y"
           />
         </div>
 
@@ -181,22 +181,22 @@ export function CommentsSection({ postSlug, initialComments }: CommentsSectionPr
       {/* Comments List */}
       <div className="space-y-6">
         {comments.length === 0 ? (
-          <div className="text-center py-8 bg-zinc-50 rounded-xl border border-dashed border-zinc-300 text-zinc-500 text-xs">
+          <div className="text-center py-8 bg-zinc-50 dark:bg-zinc-900 rounded-xl border border-dashed border-zinc-300 dark:border-zinc-800 text-zinc-500 dark:text-zinc-400 text-xs">
             Be the first to share your opinion on this story!
           </div>
         ) : (
           comments.map((comment) => (
-            <div key={comment.id} className="bg-white p-4 sm:p-5 rounded-xl border border-zinc-200">
+            <div key={comment.id} className="bg-white dark:bg-zinc-900 p-4 sm:p-5 rounded-xl border border-zinc-200 dark:border-zinc-800 transition-colors">
               <div className="flex items-start justify-between">
                 <div className="flex items-center gap-2.5">
-                  <div className="w-8 h-8 rounded-full bg-red-100 text-red-700 flex items-center justify-center font-bold text-xs shrink-0">
-                    <User className="w-4 h-4 text-red-600" />
+                  <div className="w-8 h-8 rounded-full bg-red-100 dark:bg-red-950/60 text-red-700 dark:text-red-300 flex items-center justify-center font-bold text-xs shrink-0">
+                    <User className="w-4 h-4 text-red-600 dark:text-red-400" />
                   </div>
                   <div>
-                    <span className="text-xs font-bold text-zinc-900 block">
+                    <span className="text-xs font-bold text-zinc-900 dark:text-zinc-100 block">
                       {comment.author_name}
                     </span>
-                    <span className="text-[10px] text-zinc-400 block font-mono">
+                    <span className="text-[10px] text-zinc-400 dark:text-zinc-500 block font-mono">
                       {formatWATDate(comment.created_at, { format: 'relative', includeTime: true })}
                     </span>
                   </div>
@@ -205,31 +205,31 @@ export function CommentsSection({ postSlug, initialComments }: CommentsSectionPr
                 <button
                   type="button"
                   onClick={() => setReplyingToId(replyingToId === comment.id ? null : comment.id)}
-                  className="text-xs font-bold text-red-600 hover:text-red-700 flex items-center gap-1"
+                  className="text-xs font-bold text-red-600 dark:text-red-400 hover:text-red-700 dark:hover:text-red-300 flex items-center gap-1"
                 >
                   <Reply className="w-3.5 h-3.5" />
                   <span>Reply</span>
                 </button>
               </div>
 
-              <p className="text-xs text-zinc-700 mt-3 leading-relaxed">
+              <p className="text-xs text-zinc-700 dark:text-zinc-300 mt-3 leading-relaxed">
                 {comment.content}
               </p>
 
               {/* Nested Replies */}
               {comment.replies && comment.replies.length > 0 && (
-                <div className="mt-4 pl-4 sm:pl-6 border-l-2 border-red-200 space-y-3">
+                <div className="mt-4 pl-4 sm:pl-6 border-l-2 border-red-200 dark:border-red-900 space-y-3">
                   {comment.replies.map((reply) => (
-                    <div key={reply.id} className="bg-zinc-50 p-3 rounded-lg border border-zinc-200/80">
+                    <div key={reply.id} className="bg-zinc-50 dark:bg-zinc-800/60 p-3 rounded-lg border border-zinc-200/80 dark:border-zinc-700">
                       <div className="flex items-center gap-2">
-                        <span className="text-xs font-bold text-zinc-900">
+                        <span className="text-xs font-bold text-zinc-900 dark:text-zinc-100">
                           {reply.author_name}
                         </span>
-                        <span className="text-[10px] text-zinc-400 font-mono">
+                        <span className="text-[10px] text-zinc-400 dark:text-zinc-500 font-mono">
                           {formatWATDate(reply.created_at, { format: 'relative' })}
                         </span>
                       </div>
-                      <p className="text-xs text-zinc-600 mt-1 leading-relaxed">
+                      <p className="text-xs text-zinc-600 dark:text-zinc-300 mt-1 leading-relaxed">
                         {reply.content}
                       </p>
                     </div>

@@ -48,3 +48,4 @@ declare module '@clerk/nextjs/server' {
     type: string;
   };
 }
+

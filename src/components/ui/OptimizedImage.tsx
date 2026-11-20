@@ -33,15 +33,15 @@ export function OptimizedImage({
   if (isLiteMode && !forceShow) {
     return (
       <div
-        className={`bg-zinc-100 border border-dashed border-red-200 flex flex-col items-center justify-center p-4 text-center select-none ${
+        className={`bg-zinc-100 dark:bg-zinc-900 border border-dashed border-red-200 dark:border-zinc-800 flex flex-col items-center justify-center p-4 text-center select-none ${
           fill ? 'absolute inset-0 w-full h-full' : 'w-full min-h-[160px]'
         } ${className}`}
       >
         <ImageOff className="w-6 h-6 text-red-500 mb-1" />
-        <span className="text-xs font-semibold text-zinc-700 uppercase tracking-wider">
+        <span className="text-xs font-semibold text-zinc-700 dark:text-zinc-300 uppercase tracking-wider">
           Lite Mode Active
         </span>
-        <p className="text-[11px] text-zinc-500 max-w-[200px] line-clamp-1 mb-2">
+        <p className="text-[11px] text-zinc-500 dark:text-zinc-400 max-w-[200px] line-clamp-1 mb-2">
           {alt || 'Image hidden to save mobile data'}
         </p>
         <button
@@ -51,7 +51,7 @@ export function OptimizedImage({
             e.stopPropagation();
             setForceShow(true);
           }}
-          className="inline-flex items-center gap-1 text-[11px] font-medium text-red-600 hover:text-red-700 bg-red-50 px-2 py-0.5 rounded border border-red-200 transition-colors"
+          className="inline-flex items-center gap-1 text-[11px] font-medium text-red-600 dark:text-red-400 hover:text-red-700 dark:hover:text-red-300 bg-red-50 dark:bg-zinc-800 px-2 py-0.5 rounded border border-red-200 dark:border-zinc-700 transition-colors"
         >
           <Eye className="w-3 h-3" />
           Load this image

@@ -13,36 +13,36 @@ export function TrendingSidebar({ trendingPosts }: TrendingSidebarProps) {
     <aside className="space-y-6">
       
       {/* Trending Box */}
-      <div className="bg-white border-2 border-red-600 rounded-2xl p-5 shadow-sm">
-        <div className="flex items-center gap-2 mb-4 pb-3 border-b border-zinc-100">
+      <div className="bg-white dark:bg-zinc-900 border-2 border-red-600 rounded-2xl p-5 shadow-sm transition-colors">
+        <div className="flex items-center gap-2 mb-4 pb-3 border-b border-zinc-100 dark:border-zinc-800">
           <div className="p-1.5 bg-red-600 text-white rounded-lg">
             <Flame className="w-4 h-4 fill-white" />
           </div>
           <div>
-            <h3 className="text-sm font-black uppercase tracking-wider text-zinc-950 font-sans">
+            <h3 className="text-sm font-black uppercase tracking-wider text-zinc-950 dark:text-white font-sans">
               Trending in Nigeria & DELSU
             </h3>
-            <span className="text-[10px] text-zinc-500">Most read stories in the past 24 hours</span>
+            <span className="text-[10px] text-zinc-500 dark:text-zinc-400">Most read stories in the past 24 hours</span>
           </div>
         </div>
 
-        <div className="space-y-4 divide-y divide-zinc-100">
+        <div className="space-y-4 divide-y divide-zinc-100 dark:divide-zinc-800">
           {trendingPosts.slice(0, 5).map((post, index) => (
             <div key={post.id} className={`pt-3.5 first:pt-0 flex items-start gap-3 group`}>
-              <div className="w-7 h-7 rounded-full bg-red-50 text-red-700 border border-red-200 flex items-center justify-center font-black text-xs shrink-0 group-hover:bg-red-600 group-hover:text-white transition-colors">
+              <div className="w-7 h-7 rounded-full bg-red-50 dark:bg-zinc-800 text-red-700 dark:text-red-300 border border-red-200 dark:border-zinc-700 flex items-center justify-center font-black text-xs shrink-0 group-hover:bg-red-600 group-hover:text-white transition-colors">
                 {index + 1}
               </div>
 
               <div className="flex-1 min-w-0">
-                <span className="text-[10px] font-bold text-red-600 uppercase tracking-wider block mb-0.5">
+                <span className="text-[10px] font-bold text-red-600 dark:text-red-400 uppercase tracking-wider block mb-0.5">
                   {post.category.replace('-', ' ')}
                 </span>
-                <h4 className="text-xs font-bold text-zinc-900 group-hover:text-red-600 transition-colors line-clamp-2 leading-snug">
+                <h4 className="text-xs font-bold text-zinc-900 dark:text-zinc-100 group-hover:text-red-600 dark:group-hover:text-red-400 transition-colors line-clamp-2 leading-snug">
                   <Link href={`/blog/${post.slug}`}>
                     {post.title}
                   </Link>
                 </h4>
-                <div className="flex items-center gap-2 text-[10px] text-zinc-400 mt-1 font-mono">
+                <div className="flex items-center gap-2 text-[10px] text-zinc-400 dark:text-zinc-500 mt-1 font-mono">
                   <span className="flex items-center gap-0.5">
                     <Eye className="w-3 h-3" />
                     {(post.views_count || 1200).toLocaleString()} reads

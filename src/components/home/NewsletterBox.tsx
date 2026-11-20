@@ -81,22 +81,22 @@ export function NewsletterBox() {
         </div>
 
         {/* Right Column: Email Bulletin Box */}
-        <div className="lg:col-span-5 bg-white text-zinc-900 rounded-2xl p-6 shadow-2xl border border-zinc-100">
-          <div className="flex items-center gap-2 mb-2 text-red-600">
+        <div className="lg:col-span-5 bg-white dark:bg-zinc-900 text-zinc-900 dark:text-zinc-100 rounded-2xl p-6 shadow-2xl border border-zinc-100 dark:border-zinc-800 transition-colors">
+          <div className="flex items-center gap-2 mb-2 text-red-600 dark:text-red-400">
             <Mail className="w-5 h-5" />
-            <h3 className="text-sm font-black uppercase tracking-wider text-zinc-950">
+            <h3 className="text-sm font-black uppercase tracking-wider text-zinc-950 dark:text-white">
               Weekly Digest By Email
             </h3>
           </div>
-          <p className="text-xs text-zinc-600 mb-4">
+          <p className="text-xs text-zinc-600 dark:text-zinc-400 mb-4">
             Receive our curated Friday round-up of the week’s top DELSU and Nigerian investigative stories.
           </p>
 
           {isSubscribed ? (
-            <div className="p-4 bg-emerald-50 border border-emerald-200 rounded-xl text-center">
-              <CheckCircle2 className="w-6 h-6 text-emerald-600 mx-auto mb-1.5" />
-              <h4 className="text-xs font-bold text-emerald-900">You&apos;re Subscribed!</h4>
-              <p className="text-[11px] text-emerald-700 mt-0.5">
+            <div className="p-4 bg-emerald-50 dark:bg-emerald-950/40 border border-emerald-200 dark:border-emerald-800 rounded-xl text-center">
+              <CheckCircle2 className="w-6 h-6 text-emerald-600 dark:text-emerald-400 mx-auto mb-1.5" />
+              <h4 className="text-xs font-bold text-emerald-900 dark:text-emerald-200">You&apos;re Subscribed!</h4>
+              <p className="text-[11px] text-emerald-700 dark:text-emerald-400 mt-0.5">
                 Welcome to Delsu Abraka Blog TV newsroom updates.
               </p>
             </div>
@@ -113,12 +113,12 @@ export function NewsletterBox() {
                   value={email}
                   onChange={(e) => setEmail(e.target.value)}
                   placeholder="Enter your email address"
-                  className="w-full px-3.5 py-2.5 text-xs text-zinc-900 bg-zinc-50 border border-zinc-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-red-600 focus:bg-white"
+                  className="w-full px-3.5 py-2.5 text-xs text-zinc-900 dark:text-white bg-zinc-50 dark:bg-zinc-800 border border-zinc-200 dark:border-zinc-700 rounded-lg focus:outline-none focus:ring-2 focus:ring-red-600 focus:bg-white dark:focus:bg-zinc-800"
                 />
               </div>
 
               {errorMessage && (
-                <p className="text-[11px] text-red-600 bg-red-50 p-2 rounded border border-red-200">
+                <p className="text-[11px] text-red-600 bg-red-50 dark:bg-red-950/40 p-2 rounded border border-red-200 dark:border-red-800">
                   {errorMessage}
                 </p>
               )}
