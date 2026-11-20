@@ -1,0 +1,58 @@
+[
+  {
+    "slug": "campus-updates",
+    "name": "DELSU Abraka Updates",
+    "shortName": "DELSU News",
+    "description": "Latest campus news, Senate decisions, admission lists, SUG updates, faculty news, and student life in Delta State University, Abraka.",
+    "accentColor": "bg-red-600 text-white"
+  },
+  {
+    "slug": "naija-news",
+    "name": "Naija News & Politics",
+    "shortName": "Naija News",
+    "description": "Breaking Nigerian news, political developments, national policies, and civic affairs across the 36 states and Abuja.",
+    "accentColor": "bg-red-700 text-white"
+  },
+  {
+    "slug": "tech-startups",
+    "name": "Tech & Startups",
+    "shortName": "Tech & Startups",
+    "description": "African tech ecosystems, Lagos fintech innovations, university founders, AI disruption, and venture funding.",
+    "accentColor": "bg-zinc-800 text-white"
+  },
+  {
+    "slug": "afrobeats-entertainment",
+    "name": "Afrobeats & Entertainment",
+    "shortName": "Afrobeats & Gist",
+    "description": "Global Afrobeats domination, celebrity gist, Nollywood premieres, music chart toppers, and campus concerts.",
+    "accentColor": "bg-rose-600 text-white"
+  },
+  {
+    "slug": "business-economy",
+    "name": "Business & Economy",
+    "shortName": "Business & Economy",
+    "description": "CBN monetary directives, FX exchange movements, fuel subsidies, inflation trends, and entrepreneurship opportunities.",
+    "accentColor": "bg-amber-700 text-white"
+  },
+  {
+    "slug": "japa-diaspora",
+    "name": "Japa & Diaspora",
+    "shortName": "Japa & Diaspora",
+    "description": "UK/Canada/US study visas, Post-Study Work updates, scholarship guides for Nigerian graduates, and diaspora stories.",
+    "accentColor": "bg-red-800 text-white"
+  },
+  {
+    "slug": "super-eagles-sports",
+    "name": "Super Eagles & Sports",
+    "shortName": "Super Eagles",
+    "description": "Nigeria Super Eagles fixtures, AFCON & World Cup qualifiers, European leagues, and DELSU Inter-Faculty sports.",
+    "accentColor": "bg-red-600 text-white"
+  },
+  {
+    "slug": "sport",
+    "name": "Sports & Athletics",
+    "shortName": "Sport",
+    "description": "DELSU Inter-Faculty sports, football tournaments, Nigerian Premier League, and global athletics.",
+    "accentColor": "bg-red-600 text-white"
+  }
+]

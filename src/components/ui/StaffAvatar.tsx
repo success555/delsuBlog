@@ -63,3 +63,4 @@ export function StaffAvatar({
     </div>
   );
 }
+

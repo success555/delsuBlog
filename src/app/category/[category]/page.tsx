@@ -1,13 +1,15 @@
 import React from 'react';
 import { Metadata } from 'next';
-import { notFound } from 'next/navigation';
 import Link from 'next/link';
 import { getPostsByCategory } from '@/lib/postsStore';
-import { CATEGORIES, getCategoryBySlug } from '@/data/categories';
+import { getAllCategories, getCategoryBySlug } from '@/lib/categoriesStore';
 import { OptimizedImage } from '@/components/ui/OptimizedImage';
 import { formatWATDate } from '@/lib/utils';
 import { Clock, ChevronRight, BookOpen } from 'lucide-react';
 import { AdSlot } from '@/components/ads/AdSlot';
+
+export const dynamic = 'force-dynamic';
+export const dynamicParams = true;
 
 interface CategoryPageProps {
   params: {
@@ -16,15 +18,12 @@ interface CategoryPageProps {
 }
 
 export async function generateStaticParams() {
-  return CATEGORIES.map((c) => ({ category: c.slug }));
+  const cats = await getAllCategories();
+  return cats.map((c) => ({ category: c.slug }));
 }
 
 export async function generateMetadata({ params }: CategoryPageProps): Promise<Metadata> {
-  const cat = getCategoryBySlug(params.category);
-  if (!cat) {
-    return { title: 'Category Not Found | Delsu Abraka Blog' };
-  }
-
+  const cat = await getCategoryBySlug(params.category);
   return {
     title: `${cat.name} News & Updates | Delsu Abraka Blog TV`,
     description: cat.description,
@@ -32,11 +31,7 @@ export async function generateMetadata({ params }: CategoryPageProps): Promise<M
 }
 
 export default async function CategoryPage({ params }: CategoryPageProps) {
-  const categoryInfo = getCategoryBySlug(params.category);
-  if (!categoryInfo) {
-    notFound();
-  }
-
+  const categoryInfo = await getCategoryBySlug(params.category);
   const posts = await getPostsByCategory(params.category);
 
   return (
@@ -67,7 +62,7 @@ export default async function CategoryPage({ params }: CategoryPageProps) {
           </p>
           <div className="mt-4 flex items-center gap-2 text-xs font-mono text-zinc-400">
             <BookOpen className="w-4 h-4 text-red-500" />
-            <span>Showing {posts.length} published story{posts.length === 1 ? '' : 'ies'}</span>
+            <span>Showing {posts.length} published stor{posts.length === 1 ? 'y' : 'ies'}</span>
           </div>
         </div>
       </div>
@@ -77,15 +72,26 @@ export default async function CategoryPage({ params }: CategoryPageProps) {
 
       {/* Articles Grid */}
       {posts.length === 0 ? (
-        <div className="py-16 text-center bg-zinc-50 rounded-2xl border border-dashed border-zinc-300">
-          <p className="text-base font-bold text-zinc-700">No stories found in this category yet.</p>
-          <p className="text-xs text-zinc-500 mt-1">Our reporters are currently covering breaking developments.</p>
-          <Link
-            href="/"
-            className="mt-4 inline-block px-4 py-2 bg-red-600 text-white text-xs font-bold rounded-lg hover:bg-red-700 transition-colors"
-          >
-            Back to Homepage
-          </Link>
+        <div className="py-16 text-center bg-zinc-50 rounded-2xl border border-dashed border-zinc-300 p-6">
+          <BookOpen className="w-10 h-10 text-red-500 mx-auto mb-3 opacity-70" />
+          <p className="text-base font-bold text-zinc-800">No published stories in &quot;{categoryInfo.name}&quot; yet.</p>
+          <p className="text-xs text-zinc-500 mt-1 max-w-sm mx-auto">
+            Our campus reporters and desk editors are actively working on stories. You can publish an article in this category from the Admin CMS.
+          </p>
+          <div className="mt-5 flex items-center justify-center gap-3">
+            <Link
+              href="/"
+              className="px-4 py-2 bg-red-600 text-white text-xs font-bold rounded-lg hover:bg-red-700 transition-colors shadow-xs"
+            >
+              Back to Homepage
+            </Link>
+            <Link
+              href="/admin"
+              className="px-4 py-2 bg-zinc-900 text-white text-xs font-bold rounded-lg hover:bg-zinc-800 transition-colors shadow-xs"
+            >
+              Go to CMS Editor
+            </Link>
+          </div>
         </div>
       ) : (
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
@@ -153,4 +159,3 @@ export default async function CategoryPage({ params }: CategoryPageProps) {
     </div>
   );
 }
-

@@ -1,10 +1,6 @@
 import { Post, Comment } from '@/types/blog';
-import { SEED_POSTS, SEED_COMMENTS } from '@/data/seedPosts';
+import { SEED_COMMENTS } from '@/data/seedPosts';
 import { supabase, isSupabaseConfigured } from '@/lib/supabase';
-
-// In-memory runtime state for server and fallback
-let runtimePosts: Post[] = [...SEED_POSTS];
-let runtimeComments: Comment[] = [...SEED_COMMENTS];
 
 const LOCAL_STORAGE_POSTS_KEY = 'delsu_blog_posts_v1';
 const LOCAL_STORAGE_COMMENTS_KEY = 'delsu_blog_comments_v1';
@@ -51,7 +47,10 @@ function saveClientStoredComments(comments: Comment[]) {
   }
 }
 
+let runtimeComments: Comment[] = [...SEED_COMMENTS];
+
 export async function getAllPosts(): Promise<Post[]> {
+  // 1. Supabase check
   if (isSupabaseConfigured && supabase) {
     try {
       const { data, error } = await supabase
@@ -62,15 +61,26 @@ export async function getAllPosts(): Promise<Post[]> {
         return data as Post[];
       }
     } catch (err) {
-      console.warn('Supabase fetch failed, using fallback:', err);
+      console.warn('Supabase fetch failed:', err);
     }
   }
 
-  // Client check
+  // 2. Server check
+  if (typeof window === 'undefined') {
+    try {
+      const { getServerPosts } = await import('@/lib/serverData');
+      const serverPosts = await getServerPosts();
+      if (serverPosts && serverPosts.length > 0) return serverPosts;
+    } catch {
+      // Fallback
+    }
+  }
+
+  // 3. Client check
   const local = getClientStoredPosts();
   if (local) return local;
 
-  return runtimePosts;
+  return [];
 }
 
 export async function getPostBySlug(slug: string): Promise<Post | null> {
@@ -85,18 +95,28 @@ export async function getPostBySlug(slug: string): Promise<Post | null> {
         return data as Post;
       }
     } catch (err) {
-      console.warn('Supabase fetch by slug failed, using fallback:', err);
+      console.warn('Supabase fetch by slug failed:', err);
     }
   }
 
   const posts = await getAllPosts();
-  return posts.find((p) => p.slug === slug) || null;
+  const cleanSlug = slug.toLowerCase().trim();
+  return (
+    posts.find(
+      (p) =>
+        p.slug.toLowerCase().trim() === cleanSlug ||
+        p.id.toLowerCase().trim() === cleanSlug
+    ) || null
+  );
 }
 
 export async function getPostsByCategory(categorySlug: string): Promise<Post[]> {
   const posts = await getAllPosts();
+  const cleanCategory = categorySlug.toLowerCase().trim();
   return posts.filter(
-    (p) => p.status === 'published' && (p.category === categorySlug || categorySlug === 'all')
+    (p) =>
+      p.status === 'published' &&
+      (p.category.toLowerCase().trim() === cleanCategory || cleanCategory === 'all')
   );
 }
 
@@ -109,8 +129,7 @@ export async function getFeaturedPost(): Promise<Post | null> {
 export async function getTrendingPosts(limit: number = 5): Promise<Post[]> {
   const posts = await getAllPosts();
   const published = posts.filter((p) => p.status === 'published');
-  
-  // Sort by views_count or trending flag
+
   const sorted = [...published].sort((a, b) => {
     if (a.is_trending && !b.is_trending) return -1;
     if (!a.is_trending && b.is_trending) return 1;
@@ -120,10 +139,19 @@ export async function getTrendingPosts(limit: number = 5): Promise<Post[]> {
   return sorted.slice(0, limit);
 }
 
-export async function getRelatedPosts(currentSlug: string, category: string, limit: number = 3): Promise<Post[]> {
+export async function getRelatedPosts(
+  currentSlug: string,
+  category: string,
+  limit: number = 3
+): Promise<Post[]> {
   const posts = await getAllPosts();
   return posts
-    .filter((p) => p.status === 'published' && p.slug !== currentSlug && p.category === category)
+    .filter(
+      (p) =>
+        p.status === 'published' &&
+        p.slug !== currentSlug &&
+        p.category.toLowerCase() === category.toLowerCase()
+    )
     .slice(0, limit);
 }
 
@@ -148,7 +176,6 @@ export async function savePost(post: Partial<Post>): Promise<Post> {
   let savedPost: Post;
 
   if (post.id) {
-    // Update existing
     const index = posts.findIndex((p) => p.id === post.id);
     if (index !== -1) {
       savedPost = {
@@ -164,10 +191,14 @@ export async function savePost(post: Partial<Post>): Promise<Post> {
         excerpt: post.excerpt || '',
         content: post.content || '',
         category: post.category || 'campus-updates',
-        cover_image: post.cover_image || 'https://images.unsplash.com/photo-1523240795612-9a054b0db644?auto=format&fit=crop&w=1200&q=80',
-        author_name: post.author_name || 'DELSU Editorial Desk',
-        author_avatar: post.author_avatar || 'https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&w=300&q=80',
-        author_role: post.author_role || 'Staff Writer',
+        cover_image:
+          post.cover_image ||
+          'https://images.unsplash.com/photo-1523240795612-9a054b0db644?auto=format&fit=crop&w=1200&q=80',
+        author_name: post.author_name || 'Blessing Onome Okonjo',
+        author_avatar:
+          post.author_avatar ||
+          'https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?auto=format&fit=crop&w=300&q=80',
+        author_role: post.author_role || 'DELSU Campus Editor & SUG Bureau Lead',
         reading_time: post.reading_time || '3 min read',
         is_featured: !!post.is_featured,
         is_sponsored: !!post.is_sponsored,
@@ -180,7 +211,6 @@ export async function savePost(post: Partial<Post>): Promise<Post> {
       posts.unshift(savedPost);
     }
   } else {
-    // Create new
     savedPost = {
       id: `post-${Date.now()}`,
       slug: post.slug || `article-${Date.now()}`,
@@ -188,10 +218,14 @@ export async function savePost(post: Partial<Post>): Promise<Post> {
       excerpt: post.excerpt || '',
       content: post.content || '',
       category: post.category || 'campus-updates',
-      cover_image: post.cover_image || 'https://images.unsplash.com/photo-1523240795612-9a054b0db644?auto=format&fit=crop&w=1200&q=80',
-      author_name: post.author_name || 'DELSU Editorial Desk',
-      author_avatar: post.author_avatar || 'https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&w=300&q=80',
-      author_role: post.author_role || 'DELSU Staff Correspondent',
+      cover_image:
+        post.cover_image ||
+        'https://images.unsplash.com/photo-1523240795612-9a054b0db644?auto=format&fit=crop&w=1200&q=80',
+      author_name: post.author_name || 'Blessing Onome Okonjo',
+      author_avatar:
+        post.author_avatar ||
+        'https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?auto=format&fit=crop&w=300&q=80',
+      author_role: post.author_role || 'DELSU Campus Editor & SUG Bureau Lead',
       reading_time: post.reading_time || '4 min read',
       is_featured: !!post.is_featured,
       is_sponsored: !!post.is_sponsored,
@@ -204,11 +238,27 @@ export async function savePost(post: Partial<Post>): Promise<Post> {
     posts.unshift(savedPost);
   }
 
-  // Update memory and local storage
-  runtimePosts = posts;
-  saveClientStoredPosts(posts);
+  // Server write
+  if (typeof window === 'undefined') {
+    try {
+      const { saveServerPosts } = await import('@/lib/serverData');
+      await saveServerPosts(posts);
+    } catch (e) {
+      console.warn('Failed to save posts on server:', e);
+    }
+  } else {
+    saveClientStoredPosts(posts);
+    try {
+      await fetch('/api/posts', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(savedPost),
+      });
+    } catch (e) {
+      console.warn('API save post failed:', e);
+    }
+  }
 
-  // If Supabase is active, push to Supabase
   if (isSupabaseConfigured && supabase) {
     try {
       await supabase.from('posts').upsert(savedPost);
@@ -223,8 +273,17 @@ export async function savePost(post: Partial<Post>): Promise<Post> {
 export async function deletePost(id: string): Promise<boolean> {
   const posts = await getAllPosts();
   const filtered = posts.filter((p) => p.id !== id);
-  runtimePosts = filtered;
-  saveClientStoredPosts(filtered);
+
+  if (typeof window === 'undefined') {
+    try {
+      const { saveServerPosts } = await import('@/lib/serverData');
+      await saveServerPosts(filtered);
+    } catch (e) {
+      console.warn('Failed to delete post on server:', e);
+    }
+  } else {
+    saveClientStoredPosts(filtered);
+  }
 
   if (isSupabaseConfigured && supabase) {
     try {
@@ -246,7 +305,6 @@ export async function getCommentsForPost(postSlug: string): Promise<Comment[]> {
         .eq('post_slug', postSlug)
         .order('created_at', { ascending: true });
       if (!error && data && data.length > 0) {
-        // Group nested
         const parentComments = data.filter((c) => !c.parent_id);
         return parentComments.map((p) => ({
           ...p,
@@ -301,4 +359,3 @@ export async function addComment(comment: Omit<Comment, 'id' | 'created_at'>): P
 
   return newComment;
 }
-

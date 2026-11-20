@@ -13,6 +13,9 @@ import { CommentsSection } from '@/components/blog/CommentsSection';
 import { AdSlot } from '@/components/ads/AdSlot';
 import { Clock, Calendar, ChevronRight, Eye } from 'lucide-react';
 
+export const dynamic = 'force-dynamic';
+export const dynamicParams = true;
+
 interface ArticlePageProps {
   params: {
     slug: string;
