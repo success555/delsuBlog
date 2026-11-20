@@ -1,3 +1,4 @@
+import '@/lib/safeAtob';
 import type { Metadata } from 'next';
 import './globals.css';
 import { ThemeProvider } from '@/context/ThemeContext';

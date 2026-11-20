@@ -1,5 +1,6 @@
 'use client';
 
+import '@/lib/safeAtob';
 import React from 'react';
 import { ClerkProvider } from '@clerk/nextjs';
 import { isValidClerkPublishableKey } from '@/lib/clerkUtils';

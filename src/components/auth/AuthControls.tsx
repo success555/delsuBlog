@@ -1,5 +1,6 @@
 'use client';
 
+import '@/lib/safeAtob';
 import React from 'react';
 import Link from 'next/link';
 import {

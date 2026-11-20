@@ -1,6 +1,9 @@
 'use client';
 
+import '@/lib/safeAtob';
 import React, { useState, useEffect } from 'react';
+
+export const dynamic = 'force-dynamic';
 import { useRouter } from 'next/navigation';
 import Image from 'next/image';
 import { Lock, Shield, ArrowRight, KeyRound } from 'lucide-react';

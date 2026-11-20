@@ -1,3 +1,5 @@
+import './safeAtob';
+
 /**
  * Safe Clerk Key Validation
  * Ensures ClerkProvider or clerkMiddleware is only activated when
@@ -16,8 +18,8 @@ export function isValidClerkPublishableKey(key?: string | null): boolean {
     const parts = clean.split('_');
     if (parts.length < 3 || !parts[2]) return false;
     // Clerk publishable keys encode the frontend API host ending with '$'
-    const decoded = Buffer.from(parts[2], 'base64').toString('utf-8');
-    return decoded.endsWith('$');
+    const decoded = atob(parts[2]);
+    return typeof decoded === 'string' && decoded.endsWith('$') && decoded.length > 2;
   } catch {
     return false;
   }
@@ -32,4 +34,3 @@ export function isValidClerkSecretKey(key?: string | null): boolean {
 
   return clean.length >= 25;
 }
-

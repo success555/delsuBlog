@@ -1,3 +1,4 @@
+import '@/lib/safeAtob';
 import { NextResponse } from 'next/server';
 import type { NextRequest } from 'next/server';
 import { isValidClerkPublishableKey, isValidClerkSecretKey } from '@/lib/clerkUtils';

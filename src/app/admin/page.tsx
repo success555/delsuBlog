@@ -1,6 +1,9 @@
 'use client';
 
+import '@/lib/safeAtob';
 import React, { useState, useEffect, useRef } from 'react';
+
+export const dynamic = 'force-dynamic';
 import { useRouter } from 'next/navigation';
 import Link from 'next/link';
 import Image from 'next/image';
