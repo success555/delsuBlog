@@ -424,7 +424,8 @@ export default function AdminDashboardPage() {
     try {
       const url = await processImageUpload(file, 'ad');
       setAdImageUrl(url);
-      setStatusMessage('Advertisement banner uploaded successfully!');
+      setAdIsActive(true); // Automatically activate ad when a banner image is uploaded!
+      setStatusMessage('Advertisement banner uploaded and activated successfully!');
       setTimeout(() => setStatusMessage(''), 3000);
     } catch {
       alert('Failed to upload ad image banner.');
@@ -438,7 +439,7 @@ export default function AdminDashboardPage() {
     setIsSavingAd(true);
 
     const adPayload: Advertisement = {
-      id: editingAd ? editingAd.id : `ad-${adSlot}`,
+      id: `ad-${adSlot}`,
       slot: adSlot,
       title: adTitle.trim() || `${adSlot.toUpperCase()} Banner Ad`,
       image_url: adImageUrl.trim(),
@@ -453,7 +454,7 @@ export default function AdminDashboardPage() {
       await saveAd(adPayload);
       await loadAllData();
       setIsAdModalOpen(false);
-      setStatusMessage(`Advertisement for ${adSlot} saved successfully!`);
+      setStatusMessage(`Advertisement for ${adSlot} saved and deployed successfully!`);
       setTimeout(() => setStatusMessage(''), 4000);
     } catch (err) {
       console.error(err);
@@ -1743,21 +1744,40 @@ export default function AdminDashboardPage() {
 
                 {/* Banner Live Preview in Modal */}
                 {adImageUrl ? (
-                  <div className="relative w-full h-28 rounded-xl overflow-hidden border border-zinc-200 mt-2 bg-zinc-100">
-                    <Image
-                      src={adImageUrl}
-                      alt="Ad Preview"
-                      fill
-                      unoptimized
-                      className="object-cover"
-                    />
-                    <span className="absolute bottom-2 left-2 bg-black/75 text-white text-[10px] font-bold px-2 py-0.5 rounded">
-                      Banner Preview
-                    </span>
+                  <div className="space-y-1.5 pt-1">
+                    <div className="flex items-center justify-between">
+                      <span className="text-[10px] font-bold text-emerald-800 bg-emerald-100 px-2 py-0.5 rounded-full flex items-center gap-1">
+                        <CheckCircle className="w-3 h-3 text-emerald-600" />
+                        <span>Banner Graphic Ready</span>
+                      </span>
+                      <button
+                        type="button"
+                        onClick={() => setAdImageUrl('')}
+                        className="text-[10px] text-red-600 hover:underline font-semibold"
+                      >
+                        Clear Image
+                      </button>
+                    </div>
+                    <div className="relative w-full h-36 rounded-xl overflow-hidden border-2 border-emerald-500 bg-zinc-950 flex items-center justify-center p-1 shadow-inner">
+                      <img
+                        src={adImageUrl}
+                        alt="Ad Banner Preview"
+                        className="max-h-full max-w-full object-contain mx-auto"
+                      />
+                      <span className="absolute bottom-2 left-2 bg-black/80 text-white text-[9px] font-black uppercase px-2 py-0.5 rounded backdrop-blur-xs">
+                        Live Preview ({adSlot.toUpperCase()})
+                      </span>
+                    </div>
                   </div>
                 ) : (
-                  <div className="py-4 text-center border border-dashed border-zinc-300 rounded-xl bg-white text-[11px] text-zinc-400">
-                    Click &apos;Upload Banner Image&apos; from your computer or paste an image link above.
+                  <div className="py-4 text-center border-2 border-dashed border-zinc-300 rounded-xl bg-white text-zinc-500">
+                    <ImageIcon className="w-5 h-5 text-zinc-400 mx-auto mb-1" />
+                    <span className="text-xs font-bold text-zinc-700 block">
+                      No banner image uploaded yet
+                    </span>
+                    <span className="text-[11px] text-zinc-400">
+                      Click &apos;Upload Banner Image&apos; above to pick a graphic from your device.
+                    </span>
                   </div>
                 )}
               </div>
@@ -1816,16 +1836,28 @@ export default function AdminDashboardPage() {
               </div>
 
               {/* Status Switch */}
-              <div className="p-3 bg-zinc-50 rounded-xl border border-zinc-200 flex items-center justify-between">
+              <div className="p-3.5 bg-zinc-50 rounded-xl border border-zinc-200 flex items-center justify-between">
                 <div>
-                  <span className="text-xs font-bold text-zinc-900 block">
-                    Activate Advertisement on Live Site
-                  </span>
+                  <div className="flex items-center gap-2 mb-0.5">
+                    <span className="text-xs font-bold text-zinc-900">
+                      Activate Advertisement on Live Site
+                    </span>
+                    {adIsActive ? (
+                      <span className="text-[10px] font-black uppercase tracking-wider bg-emerald-100 text-emerald-800 px-2 py-0.5 rounded-full flex items-center gap-1">
+                        <span className="w-1.5 h-1.5 rounded-full bg-emerald-600 animate-pulse" />
+                        Live on Site
+                      </span>
+                    ) : (
+                      <span className="text-[10px] font-black uppercase tracking-wider bg-zinc-200 text-zinc-600 px-2 py-0.5 rounded-full">
+                        Draft (Inactive)
+                      </span>
+                    )}
+                  </div>
                   <span className="text-[11px] text-zinc-500">
-                    When enabled, this banner replaces the default placeholder on the website.
+                    When enabled, this custom banner displays immediately across DELSU Abraka Blog.
                   </span>
                 </div>
-                <label className="relative inline-flex items-center cursor-pointer">
+                <label className="relative inline-flex items-center cursor-pointer shrink-0">
                   <input
                     type="checkbox"
                     checked={adIsActive}

@@ -31,7 +31,7 @@ export async function POST(request: Request) {
     }
 
     const currentAds = await getServerAds();
-    const adId = id || `ad-${slot}`;
+    const adId = `ad-${slot}`;
 
     const updatedAd: Advertisement = {
       id: adId,
@@ -45,7 +45,7 @@ export async function POST(request: Request) {
       updated_at: new Date().toISOString(),
     };
 
-    const existingIndex = currentAds.findIndex((a) => a.id === adId || a.slot === slot);
+    const existingIndex = currentAds.findIndex((a) => a.slot === slot);
     let nextAds: Advertisement[];
 
     if (existingIndex >= 0) {

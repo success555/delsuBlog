@@ -13,13 +13,13 @@
   {
     "id": "ad-sidebar",
     "slot": "sidebar",
-    "title": "Target 25,000+ DELSU Students and Nigerian Readers",
-    "image_url": "",
-    "target_url": "https://whatsapp.com",
-    "sponsor_name": "Campus Ad Partner",
-    "is_active": false,
+    "title": "Need Fast Off-Campus Accommodation in Abraka or Student Deals?",
+    "image_url": "https://yjmqvxkcmjjghfoaptwj.supabase.co/storage/v1/object/public/media-uploads/ad-1795164485094-banner.png",
+    "target_url": "https://app.jarawallet.com",
+    "sponsor_name": "Abraka Student Housing",
+    "is_active": true,
     "clicks_count": 0,
-    "updated_at": "2026-11-20T08:00:00.000Z"
+    "updated_at": "2026-11-20T08:48:16.406Z"
   },
   {
     "id": "ad-in-article",
@@ -33,4 +33,3 @@
     "updated_at": "2026-11-20T08:00:00.000Z"
   }
 ]
-
