@@ -1,3 +1,5 @@
+import { isValidClerkPublishableKey, isValidClerkSecretKey } from './clerkUtils';
+
 /**
  * Environment Variables Configuration & Feature Detection
  * Provides type-safe access to environment variables with fallback detection.
@@ -15,10 +17,8 @@ export const env = {
     secretKey: process.env.CLERK_SECRET_KEY || '',
     webhookSecret: process.env.CLERK_WEBHOOK_SIGNING_SECRET || '',
     isConfigured: Boolean(
-      process.env.NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY &&
-      !process.env.NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY.includes('placeholder') &&
-      process.env.CLERK_SECRET_KEY &&
-      !process.env.CLERK_SECRET_KEY.includes('placeholder')
+      isValidClerkPublishableKey(process.env.NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY) &&
+      isValidClerkSecretKey(process.env.CLERK_SECRET_KEY)
     ),
   },
 

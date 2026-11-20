@@ -1,16 +1,13 @@
 import { NextResponse } from 'next/server';
 import type { NextRequest } from 'next/server';
+import { isValidClerkPublishableKey, isValidClerkSecretKey } from '@/lib/clerkUtils';
 
-const publishableKey = process.env.NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY;
-const secretKey = process.env.CLERK_SECRET_KEY;
+const publishableKey = process.env.NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY?.trim();
+const secretKey = process.env.CLERK_SECRET_KEY?.trim();
 
 const isClerkConfigured = Boolean(
-  publishableKey &&
-    publishableKey.startsWith('pk_') &&
-    !publishableKey.includes('placeholder') &&
-    secretKey &&
-    secretKey.startsWith('sk_') &&
-    !secretKey.includes('placeholder')
+  isValidClerkPublishableKey(publishableKey) &&
+  isValidClerkSecretKey(secretKey)
 );
 
 export default function middleware(req: NextRequest) {
