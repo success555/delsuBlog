@@ -1,26 +1,39 @@
-import { clerkMiddleware, createRouteMatcher } from '@clerk/nextjs/server';
 import { NextResponse } from 'next/server';
+import type { NextRequest } from 'next/server';
 
-const isProtectedRoute = createRouteMatcher(['/admin(.*)']);
+const publishableKey = process.env.NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY;
+const secretKey = process.env.CLERK_SECRET_KEY;
 
 const isClerkConfigured = Boolean(
-  process.env.NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY &&
-    !process.env.NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY.includes('placeholder') &&
-    process.env.CLERK_SECRET_KEY &&
-    !process.env.CLERK_SECRET_KEY.includes('placeholder')
+  publishableKey &&
+    publishableKey.startsWith('pk_') &&
+    !publishableKey.includes('placeholder') &&
+    secretKey &&
+    secretKey.startsWith('sk_') &&
+    !secretKey.includes('placeholder')
 );
 
-export default clerkMiddleware((auth: any, req: any) => {
-  // If Clerk is not yet configured, allow local passcode-based admin authentication
-  if (!isClerkConfigured) {
-    return NextResponse.next();
+export default function middleware(req: NextRequest) {
+  // If Clerk is configured with valid keys, invoke Clerk middleware
+  if (isClerkConfigured) {
+    try {
+      // eslint-disable-next-line @typescript-eslint/no-var-requires
+      const { clerkMiddleware, createRouteMatcher } = require('@clerk/nextjs/server');
+      const isProtectedRoute = createRouteMatcher(['/admin(.*)']);
+      const handler = clerkMiddleware((auth: any, request: any) => {
+        if (isProtectedRoute(request)) {
+          auth().protect();
+        }
+      });
+      return handler(req, {} as any);
+    } catch (e) {
+      console.warn('Clerk middleware error, passing request through:', e);
+    }
   }
 
-  // Protect admin routes with Clerk authentication
-  if (isProtectedRoute(req)) {
-    auth().protect();
-  }
-});
+  // If Clerk is not configured, allow request through (admin protected by local session)
+  return NextResponse.next();
+}
 
 export const config = {
   matcher: [
