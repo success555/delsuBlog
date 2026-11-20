@@ -52,7 +52,14 @@
     "slug": "sport",
     "name": "Sports & Athletics",
     "shortName": "Sport",
-    "description": "DELSU Inter-Faculty sports, football tournaments, Nigerian Premier League, and global athletics.",
+    "description": "DELSU Inter-Faculty sports, football tournaments, Nigerian Premier League, Champions League, and global athletics.",
+    "accentColor": "bg-red-600 text-white"
+  },
+  {
+    "slug": "sports",
+    "name": "Sports & Athletics",
+    "shortName": "Sports",
+    "description": "DELSU Inter-Faculty sports, football tournaments, Nigerian Premier League, Champions League, and global athletics.",
     "accentColor": "bg-red-600 text-white"
   }
 ]

@@ -112,12 +112,24 @@ export async function getPostBySlug(slug: string): Promise<Post | null> {
 
 export async function getPostsByCategory(categorySlug: string): Promise<Post[]> {
   const posts = await getAllPosts();
-  const cleanCategory = categorySlug.toLowerCase().trim();
-  return posts.filter(
-    (p) =>
-      p.status === 'published' &&
-      (p.category.toLowerCase().trim() === cleanCategory || cleanCategory === 'all')
-  );
+  const clean = categorySlug.toLowerCase().trim();
+  const singular = clean.endsWith('s') ? clean.slice(0, -1) : clean;
+  const plural = clean.endsWith('s') ? clean : `${clean}s`;
+
+  return posts.filter((p) => {
+    if (p.status !== 'published') return false;
+    const postCat = p.category.toLowerCase().trim();
+    if (clean === 'all') return true;
+    if (postCat === clean || postCat === singular || postCat === plural) return true;
+    // Support sports / sport / super-eagles-sports cross matching
+    if (
+      (clean === 'sports' || clean === 'sport') &&
+      (postCat === 'sport' || postCat === 'sports' || postCat === 'super-eagles-sports')
+    ) {
+      return true;
+    }
+    return false;
+  });
 }
 
 export async function getFeaturedPost(): Promise<Post | null> {

@@ -42,3 +42,4 @@ export async function saveServerCategories(cats: CategoryInfo[]): Promise<void> 
     console.error('Could not write categories.json:', err);
   }
 }
+
