@@ -1,0 +1,273 @@
+import { Post } from '@/types/blog';
+
+export const SEED_POSTS: Post[] = [
+  {
+    id: 'post-1',
+    slug: 'delsu-senate-approves-revised-academic-calendar-site-iii-digital-hub',
+    title: 'DELSU Senate Approves Revised Academic Calendar as Abraka Site III Unveils Multi-Million Naira Digital Hub',
+    excerpt: 'The Delta State University (DELSU) Senate has formally ratified the 2026/2027 academic timetable, while Vice-Chancellor Prof. Andy Egwunyenga inspects the newly constructed high-speed ICT and innovation hub at Site III.',
+    content: `The Delta State University (DELSU), Abraka, has taken another monumental leap in its academic modernization drive. Meeting at the Senate Chambers in Abraka on Wednesday, the University Senate unanimously ratified the revised academic calendar for the 2026/2027 academic session, bringing clarity to thousands of returning and newly admitted students across all three campuses.
+
+According to a formal statement signed by the University Registrar, matriculation ceremonies for newly admitted 100-level and direct entry students have been scheduled for the third week of next month, while first-semester examinations will kick off after twelve weeks of intensive lectures. The calendar has been carefully structured to eliminate unnecessary disruptions and ensure that undergraduate programs adhere strictly to standard graduation timelines.
+
+Following the Senate deliberations, Vice-Chancellor Prof. Andy Egwunyenga led principal university officers, faculty deans, and Student Union Government (SUG) representatives on an on-site inspection of the newly completed 500-seater digital innovation and e-learning hub located within Abraka Campus Site III. The state-of-the-art facility features 24-hour solar power backup, high-speed fiber-optic campus internet, and specialized workstations designated for programming, computer-based testing (CBT), and collaborative student research.
+
+"Our goal is not merely to award degrees, but to mold students who can compete with the best software engineers, analysts, and researchers across the African continent and globally," Prof. Egwunyenga remarked during the facility tour. "This digital hub will provide free coding bootcamps and digital skills workshops for all undergraduates regardless of their faculty."
+
+Student Union Government President, Comrade Kelvin Oghenetega, lauded the university administration for prioritizing student welfare and educational infrastructure. He urged the student body to take ownership of the facility and make maximum use of the free educational resources now available at their doorstep.`,
+    category: 'campus-updates',
+    cover_image: 'https://images.unsplash.com/photo-1523240795612-9a054b0db644?auto=format&fit=crop&w=1200&q=80',
+    author_name: 'Blessing Onome Okonjo',
+    author_avatar: 'https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&w=300&q=80',
+    author_role: 'DELSU Campus Editor & SUG Bureau Lead',
+    reading_time: '4 min read',
+    is_featured: true,
+    is_sponsored: false,
+    is_trending: true,
+    views_count: 14820,
+    published_at: '2026-11-19T08:30:00Z',
+    meta_title: 'DELSU Senate Approves Revised Academic Calendar & Abraka Digital Hub',
+    meta_description: 'Delta State University Senate approves new calendar for 2026/2027 session and inaugurates high-speed ICT center at Abraka Site III.',
+    status: 'published',
+  },
+  {
+    id: 'post-2',
+    slug: 'lagos-fintech-giants-expand-student-wallets-cross-border-settlement',
+    title: 'Lagos Fintech Giants Flutterwave and Paystack Roll Out Student Virtual Accounts and Zero-Fee Campus Remittances',
+    excerpt: 'Nigeria’s premier payment platforms launch bespoke student digital wallets offering instant parent-to-student tuition remittances and virtual USD cards tailored for tertiary institutions across the South-South and nation.',
+    content: `Nigeria’s bustling financial technology sector has turned its strategic spotlight toward university campuses, with industry heavyweights announcing specialized infrastructure tailored to student commerce and micro-settlements. In coordinated product rollouts, both Flutterwave and Paystack unveiled frictionless digital wallet solutions designed to eliminate POS failures and extortionate withdrawal charges around Nigerian university gates.
+
+The new offerings enable verified university undergraduates to receive instant funds from guardians via bespoke virtual NUBAN accounts with zero transaction fees on all intrabank transfers below ₦20,000. Furthermore, students engaged in remote freelance work or tech gigs can now access virtual debit cards denominated in both Naira and US Dollars, simplifying the purchase of Coursera courses, GitHub subscriptions, and research journals.
+
+"Tertiary institutions represent the heartbeat of digital adoption in West Africa," said Tolu Adeyemi, Head of Consumer Products at an ecosystem summit in Victoria Island, Lagos. "Students in universities like DELSU, UNILAG, and UNIBEN shouldn't have to queue for hours at off-campus ATMs or pay ₦500 POS surcharges simply to buy textbooks or eat in the cafeteria."
+
+Commercial point-of-sale vendors operating around the Abraka main gate and Ethiope River recreational joints have already started integrating the lightweight QR-code payment stickers. Early reviews from campus food vendors confirm that transaction confirmation latency has dropped to less than three seconds, significantly curtailing false payment alerts that previously plagued campus traders.
+
+Market analysts predict that this student-centric push will onboard over 4 million young Nigerians into formal digital financial trails before the end of the current fiscal year.`,
+    category: 'tech-startups',
+    cover_image: 'https://images.unsplash.com/photo-1556742049-0a67e5574f73?auto=format&fit=crop&w=1200&q=80',
+    author_name: 'Chinedu Eze',
+    author_avatar: 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?auto=format&fit=crop&w=300&q=80',
+    author_role: 'Senior Tech & Fintech Correspondent',
+    reading_time: '5 min read',
+    is_featured: false,
+    is_sponsored: false,
+    is_trending: true,
+    views_count: 11250,
+    published_at: '2026-11-18T14:15:00Z',
+    meta_title: 'Lagos Fintechs Roll Out Student Wallets & Zero-Fee Remittances',
+    meta_description: 'How Paystack and Flutterwave are transforming university campus banking with zero fees and instant student virtual accounts.',
+    status: 'published',
+  },
+  {
+    id: 'post-3',
+    slug: 'burna-boy-asake-dominate-global-billboard-as-afrobeats-hits-record-streams',
+    title: 'Afrobeats Triumphs Again: Burna Boy and Asake Smash Global Billboard Records with Combined 5 Billion Streams',
+    excerpt: 'Nigerian sound continues its relentless world conquest as two of West Africa’s most celebrated voices pack sold-out stadium tours across Europe and sweep international chart milestones.',
+    content: `The global unstoppable march of contemporary Nigerian music has notched yet another historic landmark. According to official mid-year data published by Billboard and streaming aggregators, Afrobeats heavyweights Burna Boy and Asake have collectively crossed five billion audio and video streams worldwide, solidifying Nigerian musical dominance across North America, Europe, and Asia.
+
+Burna Boy’s record-breaking world tour, which recently made stops at London Stadium and Madison Square Garden, witnessed over 80,000 international fans chanting pidgin-infused anthems word-for-word. Meanwhile, YBNL talisman Asake’s signature fusion of Fuji melodies, Amapiano logs, and street-certified lyricism has charted in 42 countries, topping Apple Music albums across four continents.
+
+"Afrobeats is no longer an exotic sub-genre or an experimental crossover category," remarked London-based entertainment commentator Femi Gbenga. "It is mainstream pop culture globally. From Lagos clubs to Delta campus bars along Abraka-Eku road, and from Paris fashion runways to Brooklyn rooftops, the pulse of modern music is undeniably Nigerian."
+
+On university campuses across Delta State, the milestone triggered spontaneous celebrations, with student DJs and campus dance crews curating tribute mixtapes and staging flash mobs at the Convocation Arena. The cultural resonance continues to stimulate campus commerce, inspiring merchandise lines, graphic designers, and budding musical artists seeking to carve out their own international path.`,
+    category: 'afrobeats-entertainment',
+    cover_image: 'https://images.unsplash.com/photo-1514525253161-7a46d19cd819?auto=format&fit=crop&w=1200&q=80',
+    author_name: 'Kome Valerie Agbaje',
+    author_avatar: 'https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?auto=format&fit=crop&w=300&q=80',
+    author_role: 'Culture & Entertainment Editor',
+    reading_time: '3 min read',
+    is_featured: false,
+    is_sponsored: false,
+    is_trending: true,
+    views_count: 18940,
+    published_at: '2026-11-18T10:00:00Z',
+    meta_title: 'Burna Boy & Asake Smash Billboard Records with 5 Billion Streams',
+    meta_description: 'Afrobeats historic milestone as Burna Boy and Asake sell out international stadiums and conquer global streaming charts.',
+    status: 'published',
+  },
+  {
+    id: 'post-4',
+    slug: 'cbn-announces-new-fx-stability-measures-naira-gains-at-official-window',
+    title: 'CBN Unveils Fresh FX Stability Policy as Naira Strengthens Against the US Dollar in Official and Parallel Markets',
+    excerpt: 'The Central Bank of Nigeria has introduced strict transparent liquidity interventions and automated export proceed tracking, resulting in noticeable appreciation for the domestic currency.',
+    content: `In a decisive policy circular released from Abuja, the Central Bank of Nigeria (CBN) has rolled out fresh stabilization protocols aimed at deepening foreign exchange liquidity and stamping out speculative hoarding. The new framework introduces automated real-time matching of forex buyers and sellers while mandating that International Money Transfer Operators (IMTOs) settle overseas remittances directly at prevailing market-determined rates.
+
+Following the policy announcement, the Naira experienced a notable rally across both the Nigerian Autonomous Foreign Exchange Market (NAFEM) and street bureau de change corridors, firming up noticeably as foreign capital inflows rose by 28% week-on-week.
+
+Governor Olayemi Cardoso reiterated the apex bank’s commitment to price discovery and credible monetary governance during a press briefing in Abuja. "We are restoring discipline, transparency, and integrity to our foreign exchange operations. Market distortion and round-tripping will not find safe harbour under this leadership," he stated.
+
+Economic analysts and small business federations have welcomed the stabilization trend, noting that predictability in FX markets will assist manufacturers, importers, and university communities dealing with rising equipment and operational overheads. In Abraka and Warri commercial hubs, local traders expressed cautious optimism, urging monetary authorities to sustain interventions until food and transport costs reflect the gains.`,
+    category: 'business-economy',
+    cover_image: 'https://images.unsplash.com/photo-1526304640581-d334cdbbf45e?auto=format&fit=crop&w=1200&q=80',
+    author_name: 'Dr. Efe Ambrose',
+    author_avatar: 'https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?auto=format&fit=crop&w=300&q=80',
+    author_role: 'Chief Economics & Markets Columnist',
+    reading_time: '4 min read',
+    is_featured: false,
+    is_sponsored: false,
+    is_trending: false,
+    views_count: 8730,
+    published_at: '2026-11-17T16:45:00Z',
+    meta_title: 'CBN FX Stability Directives: Naira Strengthens Across All Markets',
+    meta_description: 'Central Bank of Nigeria injects fresh transparency guidelines leading to steady appreciation of the Naira against foreign currencies.',
+    status: 'published',
+  },
+  {
+    id: 'post-5',
+    slug: 'super-eagles-deliver-scintillating-3-0-win-in-afcon-qualifiers',
+    title: 'Super Eagles Soar: Victor Osimhen and Ademola Lookman Net Spectacular Goals in 3-0 AFCON Qualifying Triumph',
+    excerpt: 'Nigeria’s national men’s football team produced an electrifying tactical masterclass, crushing their group rivals to seal qualification for the upcoming Africa Cup of Nations tournament.',
+    content: `The Super Eagles of Nigeria delivered a vintage masterclass in front of 40,000 jubilant supporters, sweeping aside their continental opponents in an emphatic 3-0 victory to book their place at the upcoming Africa Cup of Nations tournament.
+
+From the opening whistle, the three-time African champions dictated the tempo with fluid midfield transitions orchestrated by Alex Iwobi and Wilfred Ndidi. The breakthrough arrived in the 22nd minute when reigning African Footballer of the Year Victor Osimhen leaped above two opposing defenders to power home a trademark header into the top corner.
+
+Ten minutes into the second half, Europa League hero Ademola Lookman doubled Nigeria's lead with a dazzling solo run down the left flank, cutting inside before curling an exquisite strike past the outstretched goalkeeper. Substitute forward Victor Boniface sealed the emphatic win in the 84th minute with a thunderous effort that sent the stadium and viewing centers across Nigeria into unbridled delirium.
+
+At DELSU Abraka, hundreds of passionate undergraduates packed the Student Union Center and Abraka River beach viewing lounges, draped in green-and-white jerseys and sounding vuvuzelas late into the evening.
+
+"This is the spirit and determination that makes Nigerian football iconic," head coach Augustine Eguavoen affirmed during his post-match media conference. "We have the quality, the hunger, and the discipline to bring the AFCON trophy back home to Nigeria."`,
+    category: 'super-eagles-sports',
+    cover_image: 'https://images.unsplash.com/photo-1508098682722-e99c43a406b2?auto=format&fit=crop&w=1200&q=80',
+    author_name: 'Osasuyi Osagie',
+    author_avatar: 'https://images.unsplash.com/photo-1500648767791-00dcc994a43e?auto=format&fit=crop&w=300&q=80',
+    author_role: 'Sports Bureau Lead & Match Analyst',
+    reading_time: '4 min read',
+    is_featured: false,
+    is_sponsored: false,
+    is_trending: true,
+    views_count: 16400,
+    published_at: '2026-11-17T11:20:00Z',
+    meta_title: 'Super Eagles Triumph 3-0 in Dominant AFCON Qualifier Match',
+    meta_description: 'Victor Osimhen and Ademola Lookman power Nigeria to a glorious 3-0 victory to secure qualification for AFCON.',
+    status: 'published',
+  },
+  {
+    id: 'post-6',
+    slug: 'japa-wave-navigating-new-uk-and-canada-post-study-work-regulations-2026',
+    title: 'Japa Playbook 2026: Navigating the Latest UK and Canadian Post-Study Work Visa Updates for Nigerian Graduates',
+    excerpt: 'An indispensable, pragmatic roadmap for DELSU alumni and Nigerian university leavers exploring international postgraduate study, STEM scholarships, and legal work permits abroad.',
+    content: `The aspiration among ambitious Nigerian graduates to pursue international postgraduate education—colloquially celebrated as the 'Japa' movement—has encountered evolving immigration landscapes across traditional destination countries like the United Kingdom, Canada, and Australia. However, immigration law specialists and education advisors emphasize that high-value opportunities remain plentiful for well-informed applicants who strategically align their credentials.
+
+In the United Kingdom, while family dependent privileges have undergone strict tightening on standard master’s courses, the Graduate Route visa remains firmly intact for students graduating from recognized UK higher education institutions. Crucially, postgraduate researchers and doctoral scholars continue to enjoy full spousal sponsorship rights, prompting many DELSU first-class and second-class upper graduates to target direct MPhil and PhD funding tracks.
+
+In Canada, immigration authorities have revised the Post-Graduation Work Permit (PGWP) eligibility framework, placing deliberate emphasis on graduates whose fields correspond directly to national labor shortages: healthcare sciences, artificial intelligence, civil infrastructure, and clean energy engineering.
+
+"The key for any prospective Nigerian scholar today is meticulous preparation and niche specialization," notes immigration consultant barrister Kenneth Idowu. "Blindly enrolling in generic non-technical programs without verifying PGWP compliance is a recipe for heartache. Seek fully-funded scholarships such as Chevening, Commonwealth, and Mastercard Foundation fellowships, and tailor your personal statements to emphasize concrete developmental impact."
+
+The article details a step-by-step checklist for transcript verification, WES evaluation, IELTS preparation centers in Delta State, and tips on leveraging DELSU research credentials when contacting prospective supervisors abroad.`,
+    category: 'japa-diaspora',
+    cover_image: 'https://images.unsplash.com/photo-1436491865332-7a61a109cc05?auto=format&fit=crop&w=1200&q=80',
+    author_name: 'Victoria Ejiro Daniels',
+    author_avatar: 'https://images.unsplash.com/photo-1544005313-94ddf0286df2?auto=format&fit=crop&w=300&q=80',
+    author_role: 'Diaspora Affairs & Scholarship Specialist',
+    reading_time: '6 min read',
+    is_featured: false,
+    is_sponsored: false,
+    is_trending: false,
+    views_count: 13580,
+    published_at: '2026-11-16T13:10:00Z',
+    meta_title: 'Japa Playbook 2026: UK and Canada Work Visa Rules for Nigerian Scholars',
+    meta_description: 'Comprehensive guide for Nigerian graduates on navigating international postgraduate admissions, scholarships, and post-study work rules.',
+    status: 'published',
+  },
+  {
+    id: 'post-7',
+    slug: 'federal-government-flags-off-coastal-superhighway-nddc-delta-roads',
+    title: 'Federal Government and NDDC Commission 45km Inter-Campus Link Road in Delta State to Boost Economic Mobility',
+    excerpt: 'The Niger Delta Development Commission and Ministry of Works inaugurate dual-carriage infrastructure connecting Abraka, Eku, and Warri transit routes, cutting travel times for commuters.',
+    content: `Commuters, transport unions, and university travelers across Delta State have expressed immense relief following the official commissioning of the newly rehabilitated 45-kilometer Abraka-Eku-Warri dual-carriage highway project. Undertaken jointly by the Federal Ministry of Works and the Niger Delta Development Commission (NDDC), the road project features modern asphalt overlay, reinforced drainage channels, and solar streetlights installed at major intersections.
+
+The route serves as the primary artery connecting students traveling from Warri, Sapele, and Ughelli to the Delta State University Abraka campuses. In previous rainy seasons, critical gullies along the old road had caused prolonged traffic gridlocks and vehicle breakdowns, frequently stranding students during examination periods.
+
+Speaking at the ribbon-cutting ceremony in Eku, the Minister of Works emphasized the federal administration’s commitment to critical economic corridors across the South-South region. "Quality infrastructure is the foundation of economic productivity and security. This road will not only serve the academic community of DELSU Abraka, but will also accelerate agricultural distribution for cassava, rubber, and palm oil farmers throughout Delta State."
+
+Delta State government representatives and traditional rulers from the Urhobo kingdom commended the contractors for timely execution and called for continuous maintenance patrols to preserve the asset for future generations.`,
+    category: 'naija-news',
+    cover_image: 'https://images.unsplash.com/photo-1545459720-aac8509eb02c?auto=format&fit=crop&w=1200&q=80',
+    author_name: 'Blessing Onome Okonjo',
+    author_avatar: 'https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&w=300&q=80',
+    author_role: 'DELSU Campus Editor & SUG Bureau Lead',
+    reading_time: '4 min read',
+    is_featured: false,
+    is_sponsored: false,
+    is_trending: false,
+    views_count: 7640,
+    published_at: '2026-11-15T09:00:00Z',
+    meta_title: 'NDDC & Federal Govt Commission 45km Abraka-Warri Highway Corridor',
+    meta_description: 'New dual-carriage link road eases transit for thousands of DELSU Abraka students and Delta State regional travelers.',
+    status: 'published',
+  },
+  {
+    id: 'post-8',
+    slug: 'delsu-sug-week-2026-cultural-carnival-hackathon-and-campus-superstars',
+    title: 'DELSU SUG Week 2026: Glamour, Tech Hackathons, and Cultural Diversity on Full Display at Abraka Campus',
+    excerpt: 'From high-stakes coding hackathons in Faculty of Science to traditional pageantry at the Convocation Arena, DELSU students celebrate the annual Union Week with unmatched creative flair.',
+    content: `The Delta State University (DELSU), Abraka, transformed into an exuberant sea of vibrant colors, music, and intellectual competition as the 2026 Student Union Government (SUG) Week officially concluded its festivities over the weekend. The weeklong celebration, themed 'Innovate, Unify, Elevate', brought together thousands of students representing faculties of Engineering, Basic Medical Sciences, Management Sciences, Arts, and Law.
+
+Highlights of the annual festival kicked off with the inaugural DELSU Tech Hackathon sponsored by alumni in diaspora. Over 24 student teams developed software prototypes addressing local challenges, including automated off-campus hostel booking, emergency medical alert dispatch, and peer-to-peer textbook exchanges. Team 'EthiopePay', founded by a group of 300-level Computer Science undergraduates, took home the grand prize of ₦1,500,000 for their offline-compatible SMS banking solution.
+
+Midweek activities featured the celebrated Cultural Carnival, where students proudly donned traditional attire celebrating Urhobo, Itsekiri, Ijaw, Anioma, Yoruba, Igbo, and Hausa heritages. Traditional delicacies such as Owo soup, Banga soup with starch, and Delta-style pepper soup were shared freely in front of the Faculty of Arts complex.
+
+The week culminated in the Grand Gala Night and Campus Awards at the main auditorium, featuring electrifying musical performances from upcoming campus sensations and guest appearances by prominent DELSU alumni in the Nollywood entertainment sector.
+
+"DELSU is not just a center of academic excellence; it is a vibrant crucible of youth talent, creativity, and unity," declared the Dean of Student Affairs in his closing remarks. "We are incredibly proud of how our students conducted themselves peacefully while showcasing the very best of Nigerian culture."`,
+    category: 'campus-updates',
+    cover_image: 'https://images.unsplash.com/photo-1511578314322-379afb476865?auto=format&fit=crop&w=1200&q=80',
+    author_name: 'Kome Valerie Agbaje',
+    author_avatar: 'https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?auto=format&fit=crop&w=300&q=80',
+    author_role: 'Culture & Entertainment Editor',
+    reading_time: '5 min read',
+    is_featured: false,
+    is_sponsored: true,
+    is_trending: true,
+    views_count: 21450,
+    published_at: '2026-11-14T19:00:00Z',
+    meta_title: 'DELSU SUG Week 2026: Spectacular Cultural Carnival & Tech Hackathon',
+    meta_description: 'Abraka campus comes alive with innovation, student awards, and cultural harmony during the annual DELSU Student Union celebration.',
+    status: 'published',
+  },
+];
+
+export const SEED_COMMENTS = [
+  {
+    id: 'comm-1',
+    post_slug: 'delsu-senate-approves-revised-academic-calendar-site-iii-digital-hub',
+    parent_id: null,
+    author_name: 'Osasere Jude (300L Biochem)',
+    content: 'Kudos to the VC and management! That Site III ICT hub is a massive gamechanger. Finally we have steady solar light and fast WiFi to code and do research without our phones dying!',
+    created_at: '2026-11-19T09:40:00Z',
+    is_approved: true,
+    replies: [
+      {
+        id: 'comm-1-1',
+        post_slug: 'delsu-senate-approves-revised-academic-calendar-site-iii-digital-hub',
+        parent_id: 'comm-1',
+        author_name: 'DELSU Desk Editor',
+        content: 'Indeed Osasere! The VC has also confirmed that registration for the free certified Python and Data Analysis tracks opens next Monday at the hub.',
+        created_at: '2026-11-19T10:15:00Z',
+        is_approved: true,
+      },
+    ],
+  },
+  {
+    id: 'comm-2',
+    post_slug: 'delsu-senate-approves-revised-academic-calendar-site-iii-digital-hub',
+    parent_id: null,
+    author_name: 'Tarebi Jennifer',
+    content: 'Glad the examination date has been locked in early so we can plan our travel back home for the holidays properly. Great reporting Delsu Abraka Blog!',
+    created_at: '2026-11-19T11:20:00Z',
+    is_approved: true,
+    replies: [],
+  },
+  {
+    id: 'comm-3',
+    post_slug: 'burna-boy-asake-dominate-global-billboard-as-afrobeats-hits-record-streams',
+    parent_id: null,
+    author_name: 'DJ Bobby Abraka',
+    content: 'Afrobeats to the world! That Asake album is still on continuous repeat in my DJ set across all campus parties in Abraka. Nobody does it like Naija!',
+    created_at: '2026-11-18T12:00:00Z',
+    is_approved: true,
+    replies: [],
+  },
+];

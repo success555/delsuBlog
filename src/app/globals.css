@@ -1,0 +1,78 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --primary-red: #dc2626;
+  --primary-red-hover: #b91c1c;
+  --dark-charcoal: #111827;
+  --muted-slate: #4b5563;
+  --surface-white: #ffffff;
+}
+
+body {
+  background-color: #ffffff;
+  color: #111827;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+/* Low-Bandwidth "Lite Mode" (Data Saver) overrides */
+.lite-mode * {
+  animation-duration: 0.001s !important;
+  transition-duration: 0.001s !important;
+}
+
+.lite-mode iframe,
+.lite-mode video {
+  display: none !important;
+}
+
+/* Custom editorial selection highlight */
+::selection {
+  background-color: #fecaca;
+  color: #991b1b;
+}
+
+/* Article rich prose typography styling */
+.article-prose {
+  font-family: Georgia, Cambria, 'Times New Roman', Times, serif;
+  font-size: 1.125rem;
+  line-height: 1.85;
+  color: #1f2937;
+}
+
+.article-prose p {
+  margin-bottom: 1.5rem;
+}
+
+.article-prose p:first-of-type::first-letter {
+  font-size: 3.5rem;
+  line-height: 1;
+  float: left;
+  margin-right: 0.65rem;
+  font-weight: 900;
+  color: #dc2626;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+}
+
+.article-prose h2 {
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  font-size: 1.5rem;
+  font-weight: 800;
+  margin-top: 2rem;
+  margin-bottom: 1rem;
+  color: #111827;
+}
+
+.article-prose blockquote {
+  border-left: 4px solid #dc2626;
+  padding-left: 1rem;
+  margin: 1.5rem 0;
+  font-style: italic;
+  color: #4b5563;
+  background-color: #fef2f2;
+  padding-top: 0.5rem;
+  padding-bottom: 0.5rem;
+}
