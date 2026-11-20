@@ -35,6 +35,7 @@ export function HeroGrid({ leadPost, secondaryPosts }: HeroGridProps) {
                 fill
                 priority
                 className="group-hover:scale-105 transition-transform duration-500"
+                logoSize="badge"
               />
               <div className="absolute top-4 left-4 z-10 flex gap-2">
                 <span className="px-3 py-1 bg-red-600 text-white text-xs font-black uppercase tracking-wider rounded-md shadow-md">

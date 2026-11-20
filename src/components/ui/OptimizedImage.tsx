@@ -14,6 +14,9 @@ interface OptimizedImageProps {
   className?: string;
   priority?: boolean;
   aspectRatio?: string;
+  hideLogo?: boolean;
+  logoPosition?: 'bottom-right' | 'top-right' | 'bottom-left' | 'top-left';
+  logoSize?: 'standard' | 'compact' | 'badge';
 }
 
 export function OptimizedImage({
@@ -24,6 +27,9 @@ export function OptimizedImage({
   fill,
   className = '',
   priority = false,
+  hideLogo = false,
+  logoPosition = 'bottom-right',
+  logoSize = 'standard',
 }: OptimizedImageProps) {
   const { isLiteMode } = useLiteMode();
   const [forceShow, setForceShow] = useState(false);
@@ -67,6 +73,61 @@ export function OptimizedImage({
   const cleanSrc = typeof src === 'string' && src.trim() !== '' ? src.trim() : fallbackSrc;
   const effectiveSrc = hasError ? fallbackSrc : cleanSrc;
 
+  const positionClasses = {
+    'bottom-right': 'bottom-2 right-2 sm:bottom-2.5 sm:right-2.5',
+    'bottom-left': 'bottom-2 left-2 sm:bottom-2.5 sm:left-2.5',
+    'top-right': 'top-2 right-2 sm:top-2.5 sm:right-2.5',
+    'top-left': 'top-2 left-2 sm:top-2.5 sm:left-2.5',
+  }[logoPosition] || 'bottom-2 right-2 sm:bottom-2.5 sm:right-2.5';
+
+  const renderWatermark = () => {
+    if (hideLogo) return null;
+
+    return (
+      <div
+        className={`absolute ${positionClasses} z-10 pointer-events-none select-none transition-transform duration-300 group-hover:scale-105`}
+        aria-hidden="true"
+      >
+        <div
+          className={`flex items-center gap-1.5 bg-black/75 backdrop-blur-md rounded-full border border-white/25 shadow-lg ${
+            logoSize === 'badge'
+              ? 'pl-1.5 pr-3 py-1'
+              : logoSize === 'compact'
+              ? 'p-0.5'
+              : 'pl-1 pr-2 py-0.5'
+          }`}
+        >
+          <div
+            className={`relative rounded-full overflow-hidden bg-white shrink-0 border border-red-600 shadow-xs ${
+              logoSize === 'badge'
+                ? 'w-6 h-6 sm:w-7 sm:h-7'
+                : 'w-4 h-4 sm:w-5 sm:h-5'
+            }`}
+          >
+            <Image
+              src="/logo.jpg"
+              alt="DELSU Abraka Blog TV"
+              fill
+              className="object-contain p-0.5"
+              unoptimized
+            />
+          </div>
+          {logoSize !== 'compact' && (
+            <span
+              className={`font-black uppercase tracking-wider text-white font-sans drop-shadow-sm whitespace-nowrap ${
+                logoSize === 'badge'
+                  ? 'text-[10px] sm:text-[11px]'
+                  : 'text-[8px] sm:text-[9px]'
+              }`}
+            >
+              {logoSize === 'badge' ? 'DELSU ABRAKA BLOG TV' : 'DELSU TV'}
+            </span>
+          )}
+        </div>
+      </div>
+    );
+  };
+
   if (fill) {
     return (
       <div className="absolute inset-0 w-full h-full overflow-hidden">
@@ -80,6 +141,7 @@ export function OptimizedImage({
           onError={() => setHasError(true)}
           unoptimized
         />
+        {renderWatermark()}
       </div>
     );
   }
@@ -96,6 +158,7 @@ export function OptimizedImage({
         onError={() => setHasError(true)}
         unoptimized
       />
+      {renderWatermark()}
     </div>
   );
 }

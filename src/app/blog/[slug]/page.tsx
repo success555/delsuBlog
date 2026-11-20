@@ -176,6 +176,7 @@ export default async function ArticlePage({ params }: ArticlePageProps) {
           fill
           priority
           className="object-cover"
+          logoSize="badge"
         />
       </div>
 

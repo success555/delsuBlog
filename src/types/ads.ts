@@ -11,3 +11,4 @@ export interface Advertisement {
   clicks_count?: number;
   updated_at?: string;
 }
+

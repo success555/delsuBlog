@@ -1255,6 +1255,20 @@ export default function AdminDashboardPage() {
                     <span className="absolute bottom-2 left-2 bg-black/75 text-white text-[10px] font-bold px-2 py-0.5 rounded">
                       Live Cover Preview
                     </span>
+                    <div className="absolute bottom-2 right-2 z-10 flex items-center gap-1.5 bg-black/75 backdrop-blur-md pl-1 pr-2.5 py-0.5 rounded-full border border-white/20 shadow-md">
+                      <div className="relative w-5 h-5 rounded-full overflow-hidden bg-white shrink-0 border border-red-600">
+                        <Image
+                          src="/logo.jpg"
+                          alt="DELSU Abraka Blog"
+                          fill
+                          className="object-contain p-0.5"
+                          unoptimized
+                        />
+                      </div>
+                      <span className="text-[9px] font-black uppercase tracking-wider text-white">
+                        DELSU TV
+                      </span>
+                    </div>
                   </div>
                 )}
               </div>
