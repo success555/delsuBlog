@@ -95,3 +95,4 @@ export function TrendingSidebar({ trendingPosts }: TrendingSidebarProps) {
     </aside>
   );
 }
+

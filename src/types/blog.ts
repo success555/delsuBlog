@@ -5,14 +5,18 @@ export type CategorySlug =
   | 'afrobeats-entertainment'
   | 'business-economy'
   | 'japa-diaspora'
-  | 'super-eagles-sports';
+  | 'super-eagles-sports'
+  | string;
 
 export interface CategoryInfo {
-  slug: CategorySlug;
+  id?: string;
+  slug: string;
   name: string;
   shortName: string;
   description: string;
-  accentColor: string;
+  accentColor?: string;
+  created_at?: string;
+  is_default?: boolean;
 }
 
 export interface Post {
@@ -21,7 +25,7 @@ export interface Post {
   title: string;
   excerpt: string;
   content: string;
-  category: CategorySlug | string;
+  category: string;
   cover_image: string;
   author_name: string;
   author_avatar: string;

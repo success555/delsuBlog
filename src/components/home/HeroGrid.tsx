@@ -2,6 +2,7 @@ import React from 'react';
 import Link from 'next/link';
 import { Post } from '@/types/blog';
 import { OptimizedImage } from '@/components/ui/OptimizedImage';
+import { StaffAvatar } from '@/components/ui/StaffAvatar';
 import { formatWATDate } from '@/lib/utils';
 import { Clock, TrendingUp } from 'lucide-react';
 
@@ -76,15 +77,11 @@ export function HeroGrid({ leadPost, secondaryPosts }: HeroGridProps) {
               {/* Author Footer */}
               <div className="pt-4 border-t border-zinc-100 flex items-center justify-between">
                 <div className="flex items-center gap-2.5">
-                  <div className="w-7 h-7 rounded-full overflow-hidden bg-zinc-200 border border-red-200 shrink-0">
-                    <OptimizedImage
-                      src={leadPost.author_avatar}
-                      alt={leadPost.author_name}
-                      width={28}
-                      height={28}
-                      className="rounded-full"
-                    />
-                  </div>
+                  <StaffAvatar
+                    name={leadPost.author_name}
+                    avatar={leadPost.author_avatar}
+                    size="sm"
+                  />
                   <div>
                     <span className="text-xs font-bold text-zinc-900 block leading-tight">
                       {leadPost.author_name}
@@ -155,3 +152,4 @@ export function HeroGrid({ leadPost, secondaryPosts }: HeroGridProps) {
     </section>
   );
 }
+

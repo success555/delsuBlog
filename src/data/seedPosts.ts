@@ -18,7 +18,7 @@ Student Union Government President, Comrade Kelvin Oghenetega, lauded the univer
     category: 'campus-updates',
     cover_image: 'https://images.unsplash.com/photo-1523240795612-9a054b0db644?auto=format&fit=crop&w=1200&q=80',
     author_name: 'Blessing Onome Okonjo',
-    author_avatar: 'https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&w=300&q=80',
+    author_avatar: 'https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?auto=format&fit=crop&w=300&q=80',
     author_role: 'DELSU Campus Editor & SUG Bureau Lead',
     reading_time: '4 min read',
     is_featured: true,
@@ -45,7 +45,7 @@ Commercial point-of-sale vendors operating around the Abraka main gate and Ethio
 
 Market analysts predict that this student-centric push will onboard over 4 million young Nigerians into formal digital financial trails before the end of the current fiscal year.`,
     category: 'tech-startups',
-    cover_image: 'https://images.unsplash.com/photo-1556742049-0a67e5574f73?auto=format&fit=crop&w=1200&q=80',
+    cover_image: 'https://images.unsplash.com/photo-1563986768609-322da13575f3?auto=format&fit=crop&w=1200&q=80',
     author_name: 'Chinedu Eze',
     author_avatar: 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?auto=format&fit=crop&w=300&q=80',
     author_role: 'Senior Tech & Fintech Correspondent',
@@ -128,7 +128,7 @@ At DELSU Abraka, hundreds of passionate undergraduates packed the Student Union 
 
 "This is the spirit and determination that makes Nigerian football iconic," head coach Augustine Eguavoen affirmed during his post-match media conference. "We have the quality, the hunger, and the discipline to bring the AFCON trophy back home to Nigeria."`,
     category: 'super-eagles-sports',
-    cover_image: 'https://images.unsplash.com/photo-1508098682722-e99c43a406b2?auto=format&fit=crop&w=1200&q=80',
+    cover_image: 'https://images.unsplash.com/photo-1579952363873-27f3bade9f55?auto=format&fit=crop&w=1200&q=80',
     author_name: 'Osasuyi Osagie',
     author_avatar: 'https://images.unsplash.com/photo-1500648767791-00dcc994a43e?auto=format&fit=crop&w=300&q=80',
     author_role: 'Sports Bureau Lead & Match Analyst',
@@ -186,7 +186,7 @@ Delta State government representatives and traditional rulers from the Urhobo ki
     category: 'naija-news',
     cover_image: 'https://images.unsplash.com/photo-1545459720-aac8509eb02c?auto=format&fit=crop&w=1200&q=80',
     author_name: 'Blessing Onome Okonjo',
-    author_avatar: 'https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&w=300&q=80',
+    author_avatar: 'https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?auto=format&fit=crop&w=300&q=80',
     author_role: 'DELSU Campus Editor & SUG Bureau Lead',
     reading_time: '4 min read',
     is_featured: false,
@@ -271,3 +271,4 @@ export const SEED_COMMENTS = [
     replies: [],
   },
 ];
+

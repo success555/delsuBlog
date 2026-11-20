@@ -52,3 +52,4 @@ export function ReadAlsoBox({ post }: ReadAlsoBoxProps) {
     </aside>
   );
 }
+

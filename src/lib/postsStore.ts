@@ -301,3 +301,4 @@ export async function addComment(comment: Omit<Comment, 'id' | 'created_at'>): P
 
   return newComment;
 }
+

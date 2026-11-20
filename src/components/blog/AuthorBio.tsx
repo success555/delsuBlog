@@ -1,24 +1,25 @@
+'use client';
+
 import React from 'react';
-import { OptimizedImage } from '@/components/ui/OptimizedImage';
+import { StaffAvatar } from '@/components/ui/StaffAvatar';
 import { ShieldCheck, Award } from 'lucide-react';
 
 interface AuthorBioProps {
   name: string;
-  avatar: string;
+  avatar?: string;
   role: string;
 }
 
 export function AuthorBio({ name, avatar, role }: AuthorBioProps) {
   return (
     <div className="my-10 p-5 sm:p-6 bg-zinc-50 border border-zinc-200 rounded-2xl flex flex-col sm:flex-row items-center sm:items-start gap-4 text-center sm:text-left">
-      <div className="relative w-16 h-16 sm:w-20 sm:h-20 rounded-full overflow-hidden border-2 border-red-500 shadow-md shrink-0 bg-white">
-        <OptimizedImage
-          src={avatar}
-          alt={name}
-          fill
-          className="object-cover"
-        />
-      </div>
+      {/* Staff Avatar with signature red border & initials fallback */}
+      <StaffAvatar
+        name={name}
+        avatar={avatar}
+        size="xl"
+        className="shadow-md"
+      />
 
       <div className="flex-1">
         <div className="flex flex-col sm:flex-row sm:items-center gap-1 sm:gap-2 mb-1 justify-center sm:justify-start">

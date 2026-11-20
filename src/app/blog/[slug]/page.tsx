@@ -5,6 +5,7 @@ import Link from 'next/link';
 import { getPostBySlug, getAllPosts, getRelatedPosts, getCommentsForPost } from '@/lib/postsStore';
 import { formatWATDate } from '@/lib/utils';
 import { OptimizedImage } from '@/components/ui/OptimizedImage';
+import { StaffAvatar } from '@/components/ui/StaffAvatar';
 import { SocialShareBar } from '@/components/blog/SocialShareBar';
 import { ReadAlsoBox } from '@/components/blog/ReadAlsoBox';
 import { AuthorBio } from '@/components/blog/AuthorBio';
@@ -128,15 +129,11 @@ export default async function ArticlePage({ params }: ArticlePageProps) {
       {/* Metadata Bar (Author, WAT Date, Reading Time, Views) */}
       <div className="flex flex-wrap items-center justify-between py-3 border-y border-zinc-200 text-xs text-zinc-600 mb-6 gap-3">
         <div className="flex items-center gap-3">
-          <div className="w-9 h-9 rounded-full overflow-hidden bg-zinc-200 border border-red-300 shrink-0">
-            <OptimizedImage
-              src={post.author_avatar}
-              alt={post.author_name}
-              width={36}
-              height={36}
-              className="rounded-full"
-            />
-          </div>
+          <StaffAvatar
+            name={post.author_name}
+            avatar={post.author_avatar}
+            size="md"
+          />
           <div>
             <span className="font-bold text-zinc-900 block leading-tight">
               By {post.author_name}
@@ -263,3 +260,4 @@ export default async function ArticlePage({ params }: ArticlePageProps) {
     </article>
   );
 }
+

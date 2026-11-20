@@ -1,17 +1,46 @@
 'use client';
 
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import Link from 'next/link';
 import Image from 'next/image';
 import { usePathname } from 'next/navigation';
-import { CATEGORIES } from '@/data/categories';
+import { CategoryInfo } from '@/types/blog';
+import { CATEGORIES as DEFAULT_CATEGORIES } from '@/data/categories';
+import { getAllCategories } from '@/lib/categoriesStore';
 import { SearchModal } from '@/components/ui/SearchModal';
 import { Search, Menu, X, Shield, Radio } from 'lucide-react';
 
 export function Navbar() {
   const [isSearchOpen, setIsSearchOpen] = useState(false);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+  const [categories, setCategories] = useState<CategoryInfo[]>(DEFAULT_CATEGORIES);
   const pathname = usePathname();
+
+  useEffect(() => {
+    // Load dynamic categories
+    const loadCats = async () => {
+      const data = await getAllCategories();
+      if (data && data.length > 0) {
+        setCategories(data);
+      }
+    };
+    loadCats();
+
+    // Listen for category updates from admin
+    const handleCategoriesUpdated = (event: Event) => {
+      const customEvent = event as CustomEvent<CategoryInfo[]>;
+      if (customEvent.detail) {
+        setCategories(customEvent.detail);
+      } else {
+        loadCats();
+      }
+    };
+
+    window.addEventListener('delsu_categories_updated', handleCategoriesUpdated);
+    return () => {
+      window.removeEventListener('delsu_categories_updated', handleCategoriesUpdated);
+    };
+  }, []);
 
   return (
     <>
@@ -111,7 +140,7 @@ export function Navbar() {
                 Home
               </Link>
 
-              {CATEGORIES.map((cat) => {
+              {categories.map((cat) => {
                 const isActive = pathname === `/category/${cat.slug}`;
                 return (
                   <Link
@@ -123,7 +152,7 @@ export function Navbar() {
                         : 'text-zinc-700 hover:text-red-600 hover:bg-red-50'
                     }`}
                   >
-                    {cat.shortName}
+                    {cat.shortName || cat.name}
                   </Link>
                 );
               })}
@@ -147,7 +176,7 @@ export function Navbar() {
                 Home
               </Link>
 
-              {CATEGORIES.map((cat) => {
+              {categories.map((cat) => {
                 const isActive = pathname === `/category/${cat.slug}`;
                 return (
                   <Link

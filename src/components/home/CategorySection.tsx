@@ -104,3 +104,4 @@ export function CategorySection({ category, posts }: CategorySectionProps) {
     </section>
   );
 }
+

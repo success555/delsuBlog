@@ -112,3 +112,4 @@ export function SocialShareBar({ title, slug }: SocialShareBarProps) {
     </div>
   );
 }
+

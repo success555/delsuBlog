@@ -64,3 +64,4 @@ export function LiteModeProvider({ children }: { children: React.ReactNode }) {
 export function useLiteMode() {
   return useContext(LiteModeContext);
 }
+

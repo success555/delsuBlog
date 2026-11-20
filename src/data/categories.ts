@@ -55,3 +55,4 @@ export const CATEGORIES: CategoryInfo[] = [
 export function getCategoryBySlug(slug: string): CategoryInfo | undefined {
   return CATEGORIES.find((cat) => cat.slug === slug);
 }
+
