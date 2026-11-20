@@ -8,6 +8,7 @@ import { CategoryInfo } from '@/types/blog';
 import { CATEGORIES as DEFAULT_CATEGORIES } from '@/data/categories';
 import { getAllCategories } from '@/lib/categoriesStore';
 import { SearchModal } from '@/components/ui/SearchModal';
+import { AuthControls } from '@/components/auth/AuthControls';
 import { Search, Menu, X, Shield, Radio } from 'lucide-react';
 
 export function Navbar() {
@@ -98,14 +99,7 @@ export function Navbar() {
                 </kbd>
               </button>
 
-              <Link
-                href="/admin"
-                className="hidden sm:inline-flex items-center gap-1.5 text-xs font-bold px-3 py-1.5 rounded-full bg-zinc-900 text-white hover:bg-red-700 transition-colors shadow-sm"
-                title="Staff & Editorial CMS Access"
-              >
-                <Shield className="w-3.5 h-3.5 text-red-400" />
-                <span>Admin CMS</span>
-              </Link>
+              <AuthControls />
 
               {/* Mobile Hamburger Button */}
               <button

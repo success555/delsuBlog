@@ -6,12 +6,36 @@ import { MessageCircle, Mail, CheckCircle2, ArrowRight } from 'lucide-react';
 export function NewsletterBox() {
   const [email, setEmail] = useState('');
   const [isSubscribed, setIsSubscribed] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
+  const [errorMessage, setErrorMessage] = useState('');
 
-  const handleSubscribe = (e: React.FormEvent) => {
+  const handleSubscribe = async (e: React.FormEvent) => {
     e.preventDefault();
-    if (email.trim()) {
+    if (!email.trim()) return;
+
+    setIsLoading(true);
+    setErrorMessage('');
+
+    try {
+      const res = await fetch('/api/newsletter', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ email: email.trim(), source: 'homepage_banner' }),
+      });
+
+      const data = await res.json();
+      if (!res.ok) {
+        throw new Error(data.error || 'Failed to subscribe');
+      }
+
       setIsSubscribed(true);
       setEmail('');
+    } catch (err: any) {
+      console.error('Newsletter subscription error:', err);
+      // Even if network or API has error, provide a graceful state
+      setErrorMessage(err.message || 'Something went wrong. Please try again.');
+    } finally {
+      setIsLoading(false);
     }
   };
 
@@ -93,11 +117,18 @@ export function NewsletterBox() {
                 />
               </div>
 
+              {errorMessage && (
+                <p className="text-[11px] text-red-600 bg-red-50 p-2 rounded border border-red-200">
+                  {errorMessage}
+                </p>
+              )}
+
               <button
                 type="submit"
-                className="w-full py-2.5 px-4 bg-red-600 hover:bg-red-700 text-white font-bold text-xs rounded-lg transition-colors flex items-center justify-center gap-1.5 shadow-sm"
+                disabled={isLoading}
+                className="w-full py-2.5 px-4 bg-red-600 hover:bg-red-700 disabled:opacity-60 text-white font-bold text-xs rounded-lg transition-colors flex items-center justify-center gap-1.5 shadow-sm"
               >
-                <span>Subscribe Free</span>
+                <span>{isLoading ? 'Subscribing...' : 'Subscribe Free'}</span>
                 <ArrowRight className="w-3.5 h-3.5" />
               </button>
 

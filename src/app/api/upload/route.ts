@@ -1,12 +1,13 @@
 import { NextResponse } from 'next/server';
 import fs from 'fs/promises';
 import path from 'path';
+import { isSupabaseConfigured, uploadToSupabaseStorage } from '@/lib/supabase';
 
 export async function POST(request: Request) {
   try {
     const formData = await request.formData();
     const file = formData.get('file') as File | null;
-    const type = (formData.get('type') as string) || 'image';
+    const type = (formData.get('type') as string) || 'cover'; // 'cover' | 'avatar' | 'media'
 
     if (!file) {
       return NextResponse.json({ error: 'No file uploaded' }, { status: 400 });
@@ -23,6 +24,36 @@ export async function POST(request: Request) {
       .replace(/[^a-z0-9_-]/g, '-');
     const fileName = `${type}-${Date.now()}-${cleanName}${ext}`;
 
+    // 1. If Supabase Storage is configured, attempt upload to Supabase bucket
+    if (isSupabaseConfigured) {
+      const bucketName =
+        type === 'avatar'
+          ? 'staff-avatars'
+          : type === 'media'
+          ? 'media-uploads'
+          : 'post-covers';
+
+      const { url: supabaseUrl, error: supabaseError } = await uploadToSupabaseStorage(
+        bucketName,
+        fileName,
+        buffer,
+        file.type || 'image/jpeg'
+      );
+
+      if (supabaseUrl && !supabaseError) {
+        return NextResponse.json({
+          success: true,
+          url: supabaseUrl,
+          storage: 'supabase',
+          bucket: bucketName,
+          fileName,
+        });
+      }
+
+      console.warn('Supabase storage upload failed, falling back to local storage:', supabaseError);
+    }
+
+    // 2. Local File System Fallback (Works offline / without Supabase credentials)
     const uploadDir = path.join(process.cwd(), 'public', 'uploads');
     await fs.mkdir(uploadDir, { recursive: true });
 
@@ -34,6 +65,7 @@ export async function POST(request: Request) {
     return NextResponse.json({
       success: true,
       url: publicUrl,
+      storage: 'local',
       fileName,
     });
   } catch (error: unknown) {
@@ -42,4 +74,3 @@ export async function POST(request: Request) {
     return NextResponse.json({ error: message }, { status: 500 });
   }
 }
-

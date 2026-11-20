@@ -1,6 +1,7 @@
 import type { Metadata } from 'next';
 import './globals.css';
 import { LiteModeProvider } from '@/context/LiteModeContext';
+import { AuthProvider } from '@/components/auth/AuthProvider';
 import { Header } from '@/components/layout/Header';
 import { Navbar } from '@/components/layout/Navbar';
 import { Footer } from '@/components/layout/Footer';
@@ -70,21 +71,23 @@ export default function RootLayout({
   return (
     <html lang="en" className="scroll-smooth">
       <body className="min-h-screen flex flex-col bg-white text-zinc-900 antialiased selection:bg-red-100 selection:text-red-800">
-        <LiteModeProvider>
-          {/* Top Bar with Breaking Ticker, WAT Clock, and Lite Mode toggle */}
-          <Header />
-          
-          {/* Sticky Navigation Bar */}
-          <Navbar />
+        <AuthProvider>
+          <LiteModeProvider>
+            {/* Top Bar with Breaking Ticker, WAT Clock, and Lite Mode toggle */}
+            <Header />
+            
+            {/* Sticky Navigation Bar */}
+            <Navbar />
 
-          {/* Main Content Viewport */}
-          <main className="flex-1">
-            {children}
-          </main>
+            {/* Main Content Viewport */}
+            <main className="flex-1">
+              {children}
+            </main>
 
-          {/* Global Footer */}
-          <Footer />
-        </LiteModeProvider>
+            {/* Global Footer */}
+            <Footer />
+          </LiteModeProvider>
+        </AuthProvider>
       </body>
     </html>
   );
